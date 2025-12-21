@@ -7,6 +7,19 @@ Date: 2025-12-21
 
 All notable changes to this project.
 
+## v1.19.2
+
+Released December 21, 2025
+
+**Improved AI service prompts in CopyPageDropdown**
+
+- Updated ChatGPT, Claude, and Perplexity prompts with clearer instructions
+- AI now attempts to load raw markdown URL and provides fallback behavior
+- If content loads: provides concise summary and asks how to help
+- If content fails: states page could not be loaded without guessing content
+
+Updated file: `src/components/CopyPageDropdown.tsx`
+
 ## v1.19.1
 
 Released December 21, 2025

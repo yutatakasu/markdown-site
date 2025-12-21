@@ -39,8 +39,10 @@ const AI_SERVICES: AIService[] = [
     // Uses raw markdown file URL for direct content access
     buildUrlFromRawMarkdown: (rawMarkdownUrl) => {
       const prompt =
-        `Summarize the page and then ask what the user needs help with. Be concise and to the point.\n\n` +
-        `Here is the raw markdown file URL:\n${rawMarkdownUrl}`;
+        `Attempt to load and read the raw markdown at the URL below.\n` +
+        `If successful provide a concise summary and then ask what the user needs help with.\n` +
+        `If not accessible do not guess the content. State that the page could not be loaded and ask the user how you can help.\n\n` +
+        `${rawMarkdownUrl}`;
       return `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
     },
   },
@@ -53,8 +55,10 @@ const AI_SERVICES: AIService[] = [
     supportsUrlPrefill: true,
     buildUrlFromRawMarkdown: (rawMarkdownUrl) => {
       const prompt =
-        `Summarize the page and then ask what the user needs help with. Be concise and to the point.\n\n` +
-        `Here is the raw markdown file URL:\n${rawMarkdownUrl}`;
+        `Attempt to load and read the raw markdown at the URL below.\n` +
+        `If successful provide a concise summary and then ask what the user needs help with.\n` +
+        `If not accessible do not guess the content. State that the page could not be loaded and ask the user how you can help.\n\n` +
+        `${rawMarkdownUrl}`;
       return `https://claude.ai/new?q=${encodeURIComponent(prompt)}`;
     },
   },
@@ -67,8 +71,10 @@ const AI_SERVICES: AIService[] = [
     supportsUrlPrefill: true,
     buildUrlFromRawMarkdown: (rawMarkdownUrl) => {
       const prompt =
-        `Summarize the page and then ask what the user needs help with. Be concise and to the point.\n\n` +
-        `Here is the raw markdown file URL:\n${rawMarkdownUrl}`;
+        `Attempt to load and read the raw markdown at the URL below.\n` +
+        `If successful provide a concise summary and then ask what the user needs help with.\n` +
+        `If not accessible do not guess the content. State that the page could not be loaded and ask the user how you can help.\n\n` +
+        `${rawMarkdownUrl}`;
       return `https://www.perplexity.ai/search?q=${encodeURIComponent(prompt)}`;
     },
   },
