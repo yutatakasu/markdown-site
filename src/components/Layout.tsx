@@ -7,6 +7,7 @@ import ThemeToggle from "./ThemeToggle";
 import SearchModal from "./SearchModal";
 import MobileMenu, { HamburgerButton } from "./MobileMenu";
 import ScrollToTop, { ScrollToTopConfig } from "./ScrollToTop";
+import { useSidebarOptional } from "../context/SidebarContext";
 import siteConfig from "../config/siteConfig";
 
 // Scroll-to-top configuration - enabled by default
@@ -27,6 +28,11 @@ export default function Layout({ children }: LayoutProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+
+  // Get sidebar headings from context (if available)
+  const sidebarContext = useSidebarOptional();
+  const sidebarHeadings = sidebarContext?.headings || [];
+  const sidebarActiveId = sidebarContext?.activeId;
 
   // Open search modal
   const openSearch = useCallback(() => {
@@ -116,12 +122,23 @@ export default function Layout({ children }: LayoutProps) {
     <div className="layout">
       {/* Top navigation bar with page links, search, and theme toggle */}
       <div className="top-nav">
-        {/* Hamburger button for mobile menu (visible on mobile/tablet only) */}
-        <div className="mobile-menu-trigger">
-          <HamburgerButton
-            onClick={openMobileMenu}
-            isOpen={isMobileMenuOpen}
-          />
+        {/* Mobile left controls: hamburger, search, theme (visible on mobile/tablet only) */}
+        <div className="mobile-nav-controls">
+          {/* Hamburger button for mobile menu */}
+          <HamburgerButton onClick={openMobileMenu} isOpen={isMobileMenuOpen} />
+          {/* Search button with icon */}
+          <button
+            onClick={openSearch}
+            className="search-button"
+            aria-label="Search (⌘K)"
+            title="Search (⌘K)"
+          >
+            <MagnifyingGlass size={18} weight="bold" />
+          </button>
+          {/* Theme toggle */}
+          <div className="theme-toggle-container">
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Page navigation links (visible on desktop only) */}
@@ -138,23 +155,31 @@ export default function Layout({ children }: LayoutProps) {
           ))}
         </nav>
 
-        {/* Search button with icon */}
-        <button
-          onClick={openSearch}
-          className="search-button"
-          aria-label="Search (⌘K)"
-          title="Search (⌘K)"
-        >
-          <MagnifyingGlass size={18} weight="bold" />
-        </button>
-        {/* Theme toggle */}
-        <div className="theme-toggle-container">
-          <ThemeToggle />
+        {/* Desktop search and theme (visible on desktop only) */}
+        <div className="desktop-controls desktop-only">
+          {/* Search button with icon */}
+          <button
+            onClick={openSearch}
+            className="search-button"
+            aria-label="Search (⌘K)"
+            title="Search (⌘K)"
+          >
+            <MagnifyingGlass size={18} weight="bold" />
+          </button>
+          {/* Theme toggle */}
+          <div className="theme-toggle-container">
+            <ThemeToggle />
+          </div>
         </div>
       </div>
 
       {/* Mobile menu drawer */}
-      <MobileMenu isOpen={isMobileMenuOpen} onClose={closeMobileMenu}>
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={closeMobileMenu}
+        sidebarHeadings={sidebarHeadings}
+        sidebarActiveId={sidebarActiveId}
+      >
         {/* Page navigation links in mobile menu (same order as desktop) */}
         <nav className="mobile-nav-links">
           {navItems.map((item) => (
@@ -171,7 +196,11 @@ export default function Layout({ children }: LayoutProps) {
       </MobileMenu>
 
       {/* Use wider layout for stats page, normal layout for other pages */}
-      <main className={location.pathname === "/stats" ? "main-content-wide" : "main-content"}>
+      <main
+        className={
+          location.pathname === "/stats" ? "main-content-wide" : "main-content"
+        }
+      >
         {children}
       </main>
 

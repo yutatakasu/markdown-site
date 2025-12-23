@@ -7,6 +7,44 @@ Date: 2025-12-23
 
 All notable changes to this project.
 
+## v1.24.2
+
+Released December 23, 2025
+
+**Mobile menu improvements**
+
+- Mobile menu now includes search and theme toggle
+  - Header controls moved from top navigation to mobile menu drawer
+  - Easier access to search and theme switching on mobile devices
+  - Desktop navigation unchanged
+
+- Sidebar table of contents in mobile menu
+  - When a page or post uses sidebar layout, the TOC appears in the mobile menu
+  - Page sidebar hidden on mobile to avoid duplication
+  - All sidebar features work: collapsible sections, active heading highlighting, smooth scroll navigation
+  - Sidebar remains visible on tablet for better UX
+
+Updated files: `src/context/SidebarContext.tsx`, `src/components/MobileMenu.tsx`, `src/components/Layout.tsx`, `src/pages/Post.tsx`, `src/pages/Home.tsx`, `src/pages/Blog.tsx`, `src/pages/Stats.tsx`, `src/pages/Write.tsx`, `src/styles/global.css`
+
+## v1.24.1
+
+Released December 23, 2025
+
+**Sidebar navigation fixes**
+
+- Fixed anchor link navigation when sidebar sections are collapsed or expanded
+  - Navigation now correctly scrolls to target headings with proper header offset
+  - Sections expand automatically when navigating to nested headings
+  - Collapse button works reliably without triggering navigation
+  - Manual collapse/expand state persists during scrolling
+
+- Fixed heading extraction to ignore code blocks
+  - Sidebar no longer shows example headings from markdown code examples
+  - Only actual page headings appear in the table of contents
+  - Filters out fenced code blocks (```) and indented code blocks
+
+Updated files: `src/components/PageSidebar.tsx`, `src/utils/extractHeadings.ts`
+
 ## v1.24.0
 
 Released December 23, 2025

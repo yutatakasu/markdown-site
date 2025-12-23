@@ -6,6 +6,7 @@ import Blog from "./pages/Blog";
 import Write from "./pages/Write";
 import Layout from "./components/Layout";
 import { usePageTracking } from "./hooks/usePageTracking";
+import { SidebarProvider } from "./context/SidebarContext";
 import siteConfig from "./config/siteConfig";
 
 function App() {
@@ -19,18 +20,20 @@ function App() {
   }
 
   return (
-    <Layout>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/stats" element={<Stats />} />
-        {/* Blog page route - only enabled when blogPage.enabled is true */}
-        {siteConfig.blogPage.enabled && (
-          <Route path="/blog" element={<Blog />} />
-        )}
-        {/* Catch-all for post/page slugs - must be last */}
-        <Route path="/:slug" element={<Post />} />
-      </Routes>
-    </Layout>
+    <SidebarProvider>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/stats" element={<Stats />} />
+          {/* Blog page route - only enabled when blogPage.enabled is true */}
+          {siteConfig.blogPage.enabled && (
+            <Route path="/blog" element={<Blog />} />
+          )}
+          {/* Catch-all for post/page slugs - must be last */}
+          <Route path="/:slug" element={<Post />} />
+        </Routes>
+      </Layout>
+    </SidebarProvider>
   );
 }
 

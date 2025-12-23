@@ -1,10 +1,14 @@
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
+import { Heading } from "../utils/extractHeadings";
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
+  sidebarHeadings?: Heading[];
+  sidebarActiveId?: string;
 }
 
 /**
@@ -16,8 +20,11 @@ export default function MobileMenu({
   isOpen,
   onClose,
   children,
+  sidebarHeadings = [],
+  sidebarActiveId,
 }: MobileMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
+  const hasSidebar = sidebarHeadings.length > 0;
 
   // Handle escape key to close menu
   useEffect(() => {
@@ -55,6 +62,30 @@ export default function MobileMenu({
       onClose();
     }
   };
+
+  // Navigate to heading and close menu
+  const navigateToHeading = useCallback(
+    (id: string) => {
+      const element = document.getElementById(id);
+      if (element) {
+        // Close menu first
+        onClose();
+        // Scroll after menu closes
+        setTimeout(() => {
+          const headerOffset = 80;
+          const elementTop =
+            element.getBoundingClientRect().top + window.scrollY;
+          const targetPosition = elementTop - headerOffset;
+          window.scrollTo({
+            top: Math.max(0, targetPosition),
+            behavior: "smooth",
+          });
+          window.history.pushState(null, "", `#${id}`);
+        }, 100);
+      }
+    },
+    [onClose],
+  );
 
   return (
     <>
@@ -102,7 +133,30 @@ export default function MobileMenu({
         </div>
 
         {/* Menu content */}
-        <div className="mobile-menu-content">{children}</div>
+        <div className="mobile-menu-content">
+          {children}
+
+          {/* Table of contents from sidebar (if page has sidebar) */}
+          {hasSidebar && (
+            <div className="mobile-menu-toc">
+              <div className="mobile-menu-toc-title">On this page</div>
+              <nav className="mobile-menu-toc-links">
+                {sidebarHeadings.map((heading) => (
+                  <button
+                    key={heading.id}
+                    onClick={() => navigateToHeading(heading.id)}
+                    className={`mobile-menu-toc-link mobile-menu-toc-level-${heading.level} ${
+                      sidebarActiveId === heading.id ? "active" : ""
+                    }`}
+                  >
+                    <ChevronRight size={12} className="mobile-menu-toc-icon" />
+                    {heading.text}
+                  </button>
+                ))}
+              </nav>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

@@ -4,6 +4,53 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.24.2] - 2025-12-23
+
+### Changed
+
+- Mobile menu redesigned for better sidebar integration
+  - Mobile navigation controls moved to left side (hamburger, search, theme toggle)
+  - Hamburger menu order: hamburger first, then search, then theme toggle
+  - Sidebar table of contents now appears in mobile menu when page has sidebar layout
+  - Desktop sidebar hidden on mobile (max-width: 768px) since it's accessible via hamburger menu
+  - Back button and CopyPageDropdown remain visible above main content on mobile
+- Mobile menu typography standardized
+  - All mobile menu elements now use CSS variables for font sizes
+  - Font-family standardized using `inherit` to match body font from global.css
+  - Mobile menu TOC links use consistent font sizing with desktop sidebar
+  - Added CSS variables: `--font-size-mobile-toc-title` and `--font-size-mobile-toc-link`
+
+### Technical
+
+- Updated `src/components/Layout.tsx`: Reordered mobile nav controls, added sidebar context integration
+- Updated `src/components/MobileMenu.tsx`: Added sidebar headings rendering in mobile menu
+- Updated `src/pages/Post.tsx`: Provides sidebar headings to context for mobile menu
+- Updated `src/context/SidebarContext.tsx`: New context for sharing sidebar data between components
+- Updated `src/styles/global.css`: Mobile menu positioning, sidebar hiding on mobile, font standardization
+
+## [1.24.1] - 2025-12-23
+
+### Fixed
+
+- Sidebar navigation anchor links now work correctly when sections are collapsed or expanded
+  - Fixed navigation scroll calculation to use proper header offset (80px)
+  - Expand ancestors before scrolling to ensure target is visible
+  - Use requestAnimationFrame to ensure DOM updates complete before scrolling
+  - Removed auto-expand from scroll handler to prevent interfering with manual collapse/expand
+  - Collapse button now properly isolated from link clicks with event handlers
+
+### Changed
+
+- Updated `extractHeadings.ts` to filter out headings inside code blocks
+  - Prevents sidebar from showing example headings from markdown code examples
+  - Removes fenced code blocks (```) and indented code blocks before extracting headings
+  - Ensures sidebar only shows actual page headings, not code examples
+
+### Technical
+
+- Updated `src/components/PageSidebar.tsx`: Improved navigation logic and collapse button event handling
+- Updated `src/utils/extractHeadings.ts`: Added `removeCodeBlocks` function to filter code before heading extraction
+
 ## [1.24.0] - 2025-12-23
 
 ### Added

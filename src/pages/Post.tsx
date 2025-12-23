@@ -5,6 +5,7 @@ import BlogPost from "../components/BlogPost";
 import CopyPageDropdown from "../components/CopyPageDropdown";
 import PageSidebar from "../components/PageSidebar";
 import { extractHeadings } from "../utils/extractHeadings";
+import { useSidebar } from "../context/SidebarContext";
 import { format, parseISO } from "date-fns";
 import { ArrowLeft, Link as LinkIcon, Twitter, Rss } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -18,6 +19,7 @@ export default function Post() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const location = useLocation();
+  const { setHeadings, setActiveId } = useSidebar();
   // Check for page first, then post
   const page = useQuery(api.pages.getPageBySlug, slug ? { slug } : "skip");
   const post = useQuery(api.posts.getPostBySlug, slug ? { slug } : "skip");
@@ -39,6 +41,33 @@ export default function Post() {
 
     return () => clearTimeout(timer);
   }, [location.hash, page, post]);
+
+  // Update sidebar context with headings for mobile menu
+  useEffect(() => {
+    // Extract headings for pages with sidebar layout
+    if (page && page.layout === "sidebar") {
+      const pageHeadings = extractHeadings(page.content);
+      setHeadings(pageHeadings);
+      setActiveId(location.hash.slice(1) || undefined);
+    }
+    // Extract headings for posts with sidebar layout
+    else if (post && post.layout === "sidebar") {
+      const postHeadings = extractHeadings(post.content);
+      setHeadings(postHeadings);
+      setActiveId(location.hash.slice(1) || undefined);
+    }
+    // Clear headings when no sidebar
+    else if (page !== undefined || post !== undefined) {
+      setHeadings([]);
+      setActiveId(undefined);
+    }
+
+    // Cleanup: clear headings when leaving page
+    return () => {
+      setHeadings([]);
+      setActiveId(undefined);
+    };
+  }, [page, post, location.hash, setHeadings, setActiveId]);
 
   // Update page title for static pages
   useEffect(() => {

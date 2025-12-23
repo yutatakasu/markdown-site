@@ -15,7 +15,7 @@
 
 ## Current Status
 
-v1.24.0 deployed. Sidebar layout support for blog posts.
+v1.24.2 deployed. Mobile menu redesigned with sidebar integration and typography standardization.
 
 ## Completed
 
@@ -158,6 +158,20 @@ v1.24.0 deployed. Sidebar layout support for blog posts.
 - [x] Aggregate component registration in convex.config.ts
 - [x] Stats query updated to use aggregate counts
 - [x] Aggregate component documentation in prds/howstatsworks.md
+- [x] Sidebar navigation anchor links fixed for collapsed/expanded sections
+- [x] Navigation scroll calculation with proper header offset (80px)
+- [x] Expand ancestors before scrolling to ensure target visibility
+- [x] Removed auto-expand from scroll handler to preserve manual collapse state
+- [x] Collapse button event handling improved to prevent link navigation
+- [x] Heading extraction updated to filter out code blocks
+- [x] Sidebar no longer shows example headings from markdown code examples
+- [x] Mobile menu redesigned with left-aligned navigation controls
+- [x] Hamburger menu order changed (hamburger, search, theme toggle)
+- [x] Sidebar table of contents integrated into mobile menu
+- [x] Desktop sidebar hidden on mobile when sidebar layout is enabled
+- [x] SidebarContext created to share sidebar data between components
+- [x] Mobile menu typography standardized with CSS variables
+- [x] Font-family standardized using inherit for consistency
 
 ## Deployment Steps
 

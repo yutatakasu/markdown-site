@@ -49,7 +49,7 @@ A brief description of each file in the codebase.
 
 | File                      | Description                                                |
 | ------------------------- | ---------------------------------------------------------- |
-| `Layout.tsx`              | Page wrapper with search button, theme toggle, mobile menu, and scroll-to-top |
+| `Layout.tsx`              | Page wrapper with search button, theme toggle, mobile menu (left-aligned on mobile), and scroll-to-top |
 | `ThemeToggle.tsx`         | Theme switcher (dark/light/tan/cloud)                      |
 | `PostList.tsx`            | Year-grouped blog post list or card grid (supports list/cards view modes) |
 | `BlogPost.tsx`            | Markdown renderer with syntax highlighting and collapsible sections (details/summary) |
@@ -57,16 +57,24 @@ A brief description of each file in the codebase.
 | `SearchModal.tsx`         | Full text search modal with keyboard navigation            |
 | `FeaturedCards.tsx`       | Card grid for featured posts/pages with excerpts           |
 | `LogoMarquee.tsx`         | Scrolling logo gallery with clickable links                |
-| `MobileMenu.tsx`          | Slide-out drawer menu for mobile navigation with hamburger button |
+| `MobileMenu.tsx`          | Slide-out drawer menu for mobile navigation with hamburger button, includes sidebar table of contents when page has sidebar layout |
 | `ScrollToTop.tsx`         | Configurable scroll-to-top button with Phosphor ArrowUp icon |
 | `GitHubContributions.tsx` | GitHub activity graph with theme-aware colors and year navigation |
 | `VisitorMap.tsx`          | Real-time visitor location map with dotted world display and theme-aware colors |
+| `PageSidebar.tsx`         | Collapsible table of contents sidebar for pages/posts with sidebar layout, extracts headings (H1-H6), active heading highlighting, smooth scroll navigation, localStorage persistence for expanded/collapsed state |
 
 ### Context (`src/context/`)
 
 | File               | Description                                          |
 | ------------------ | ---------------------------------------------------- |
 | `ThemeContext.tsx` | Theme state management with localStorage persistence |
+| `SidebarContext.tsx` | Shares sidebar headings and active ID between Post and Layout components for mobile menu integration |
+
+### Utils (`src/utils/`)
+
+| File                  | Description                                                          |
+| --------------------- | -------------------------------------------------------------------- |
+| `extractHeadings.ts`  | Parses markdown content to extract headings (H1-H6), generates slugs, filters out headings inside code blocks |
 
 ### Hooks (`src/hooks/`)
 

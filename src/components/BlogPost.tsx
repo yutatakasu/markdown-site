@@ -405,6 +405,14 @@ export default function BlogPost({ content }: BlogPostProps) {
               </h5>
             );
           },
+          h6({ children }) {
+            const id = generateSlug(getTextContent(children));
+            return (
+              <h6 id={id} className="blog-h6">
+                {children}
+              </h6>
+            );
+          },
           ul({ children }) {
             return <ul className="blog-ul">{children}</ul>;
           },

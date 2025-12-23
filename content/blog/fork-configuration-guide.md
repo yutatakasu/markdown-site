@@ -7,6 +7,7 @@ published: true
 tags: ["configuration", "setup", "fork", "tutorial"]
 readTime: "4 min read"
 featured: true
+layout: "sidebar"
 featuredOrder: 0
 authorName: "Markdown"
 authorImage: "/images/authors/markdown.png"

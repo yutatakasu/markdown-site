@@ -8,6 +8,52 @@ layout: "sidebar"
 
 All notable changes to this project.
 
+## v1.24.2
+
+Released December 23, 2025
+
+**Mobile menu redesign with sidebar integration**
+
+- Mobile navigation controls moved to left side
+  - Hamburger menu, search, and theme toggle now positioned on the left
+  - Order: hamburger first, then search, then theme toggle
+  - Consistent left-aligned navigation on mobile devices
+
+- Sidebar table of contents in mobile menu
+  - When a page or blog post has sidebar layout, the TOC appears in the mobile menu
+  - Desktop sidebar hidden on mobile (max-width: 768px) since accessible via hamburger
+  - Back button and CopyPageDropdown remain visible above main content on mobile
+  - Sidebar headings displayed with same collapsible tree structure as desktop
+
+- Typography standardization
+  - All mobile menu elements use CSS variables for font sizes
+  - Font-family standardized using `inherit` to match body font
+  - Mobile menu TOC links use consistent sizing with desktop sidebar
+  - Added CSS variables: `--font-size-mobile-toc-title` and `--font-size-mobile-toc-link`
+
+New files: `src/context/SidebarContext.tsx`
+
+Updated files: `src/components/Layout.tsx`, `src/components/MobileMenu.tsx`, `src/pages/Post.tsx`, `src/styles/global.css`
+
+## v1.24.1
+
+Released December 23, 2025
+
+**Sidebar navigation fixes**
+
+- Fixed anchor link navigation when sidebar sections are collapsed or expanded
+  - Navigation now correctly scrolls to target headings with proper header offset
+  - Sections expand automatically when navigating to nested headings
+  - Collapse button works reliably without triggering navigation
+  - Manual collapse/expand state persists during scrolling
+
+- Fixed heading extraction to ignore code blocks
+  - Sidebar no longer shows example headings from markdown code examples
+  - Only actual page headings appear in the table of contents
+  - Filters out fenced code blocks (```) and indented code blocks
+
+Updated files: `src/components/PageSidebar.tsx`, `src/utils/extractHeadings.ts`
+
 ## v1.24.0
 
 Released December 23, 2025
