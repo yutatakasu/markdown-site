@@ -20,7 +20,7 @@ npm run sync:prod   # production
 
 - **[Setup Guide](content/blog/setup-guide.md)** - Complete fork and deployment guide
 - **[Configuration Guide](content/blog/fork-configuration-guide.md)** - Automated or manual fork setup
-- **[Full Documentation](content/pages/docs.md)** - Reference for all features and configuration
+- **[Full Documentation](content/pages/docs.md)** - Docs for all features and configuration
 
 ## Fork Configuration
 
