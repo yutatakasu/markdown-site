@@ -98,6 +98,7 @@ export default function Home() {
           <strong>
             An open-source publishing framework for AI agents and developers.
           </strong>{" "}
+          <br />
           Write markdown, sync from the terminal. <br />
           <br />
           <a

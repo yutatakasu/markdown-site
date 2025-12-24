@@ -715,6 +715,20 @@ body {
   animation: dropdownFadeIn 0.15s ease;
 }
 
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-icon {
+  animation: spin 1s linear infinite;
+  color: var(--text-secondary);
+}
+
 @keyframes dropdownFadeIn {
   from {
     opacity: 0;
@@ -878,8 +892,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   padding: 0;
   background: transparent;
   border: none;
@@ -896,6 +910,8 @@ body {
 }
 
 .page-sidebar-expand svg {
+  width: 16px;
+  height: 16px;
   transition: transform 0.15s ease;
 }
 
@@ -904,7 +920,7 @@ body {
 }
 
 .page-sidebar-spacer {
-  width: 20px;
+  width: 24px;
   flex-shrink: 0;
 }
 
@@ -1012,17 +1028,17 @@ body {
   }
 
   .page-sidebar-expand {
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
   }
 
   .page-sidebar-expand svg {
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
   }
 
   .page-sidebar-spacer {
-    width: 18px;
+    width: 24px;
   }
 
   .page-sidebar-link {

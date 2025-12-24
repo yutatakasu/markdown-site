@@ -1,4 +1,3 @@
-import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -9,8 +8,20 @@ import * as path from "path";
  * Returns text/plain with minimal headers for reliable AI ingestion.
  */
 
+// Inline types for Netlify Functions (avoids external dependency)
+interface HandlerEvent {
+  path: string;
+  httpMethod: string;
+}
+
+interface HandlerResponse {
+  statusCode: number;
+  headers: Record<string, string>;
+  body: string;
+}
+
 // Response headers optimized for AI crawlers
-const AI_HEADERS = {
+const AI_HEADERS: Record<string, string> = {
   "Content-Type": "text/plain; charset=utf-8",
   "Access-Control-Allow-Origin": "*",
   "Cache-Control": "public, max-age=3600",
@@ -20,10 +31,7 @@ const AI_HEADERS = {
 // Extract slug from path like /api/raw/my-post or /.netlify/functions/raw/my-post
 function extractSlug(rawPath: string): string | null {
   // Handle both /api/raw/:slug and /.netlify/functions/raw/:slug patterns
-  const patterns = [
-    /^\/api\/raw\/(.+)$/,
-    /^\/.netlify\/functions\/raw\/(.+)$/,
-  ];
+  const patterns = [/^\/api\/raw\/(.+)$/, /^\/.netlify\/functions\/raw\/(.+)$/];
 
   for (const pattern of patterns) {
     const match = rawPath.match(pattern);
@@ -59,10 +67,8 @@ function readMarkdownFile(slug: string): string | null {
   return null;
 }
 
-const handler: Handler = async (
-  event: HandlerEvent,
-  _context: HandlerContext,
-) => {
+// Netlify Function handler
+const handler = async (event: HandlerEvent): Promise<HandlerResponse> => {
   // Only allow GET requests
   if (event.httpMethod !== "GET") {
     return {
@@ -103,4 +109,3 @@ const handler: Handler = async (
 };
 
 export { handler };
-

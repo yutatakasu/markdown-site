@@ -10,7 +10,7 @@ import {
   BookOpen,
   Activity,
 } from "lucide-react";
-import { GithubLogo } from "@phosphor-icons/react";
+import { GithubLogo, Spinner } from "@phosphor-icons/react";
 import VisitorMap from "../components/VisitorMap";
 import siteConfig from "../config/siteConfig";
 
@@ -48,9 +48,27 @@ export default function Stats() {
       .catch(() => setGithubStars(null));
   }, []);
 
-  // Don't render until stats load
+  // Show loading spinner while stats load
   if (stats === undefined) {
-    return null;
+    return (
+      <div className="stats-page-wide">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "60vh",
+            flexDirection: "column",
+            gap: "1rem",
+          }}
+        >
+          <Spinner size={32} className="spinner-icon" />
+          <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem" }}>
+            Loading statistics...
+          </p>
+        </div>
+      </div>
+    );
   }
 
   // Stats card configuration with numbered sections
