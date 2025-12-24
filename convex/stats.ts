@@ -237,33 +237,50 @@ export const getStats = query({
       .map(([path, count]) => ({ path, count }))
       .sort((a, b) => b.count - a.count);
 
-    // Use aggregate components for O(log n) counts instead of O(n) table scans
-    const totalPageViewsCount = await totalPageViews.count(ctx);
-    const uniqueVisitorsCount = await uniqueVisitors.count(ctx);
-
-    // Get unique paths efficiently by querying pageViews with by_path index
-    // We only need the path field, so this is more efficient than loading all documents
-    // Then use aggregate component for O(log n) counts per path
-    const pageViewsForPaths = await ctx.db
+    // Get all page views once (needed for unique paths and fallback counts)
+    const allPageViews = await ctx.db
       .query("pageViews")
       .withIndex("by_path")
       .collect();
 
-    // Extract unique paths (much faster than manual counting)
+    // Extract unique paths
     const uniquePathsSet = new Set<string>();
-    for (const view of pageViewsForPaths) {
+    for (const view of allPageViews) {
       uniquePathsSet.add(view.path);
     }
     const allPaths = Array.from(uniquePathsSet);
 
+    // Calculate direct counts from pageViews (includes all historical data)
+    const totalPageViewsDirect = allPageViews.length;
+    const uniqueSessionsDirect = new Set(allPageViews.map((v) => v.sessionId))
+      .size;
+    const pathCountsDirect: Record<string, number> = {};
+    for (const view of allPageViews) {
+      pathCountsDirect[view.path] = (pathCountsDirect[view.path] || 0) + 1;
+    }
+
+    // Get aggregate counts (fast O(log n), but may be incomplete until backfilled)
+    const totalPageViewsAggregate = await totalPageViews.count(ctx);
+    const uniqueVisitorsAggregate = await uniqueVisitors.count(ctx);
+
     // Get view counts per path using aggregate component (O(log n) per path)
-    // This is the key performance improvement - counts are pre-computed
     const pathCountsFromAggregate: Record<string, number> = {};
     const pathCountPromises = allPaths.map(async (path) => {
       const count = await pageViewsByPath.count(ctx, { namespace: path });
       pathCountsFromAggregate[path] = count;
     });
     await Promise.all(pathCountPromises);
+
+    // Use maximum of aggregate vs direct counts to ensure all historical data is shown
+    // This handles the case where aggregates haven't been fully backfilled yet
+    const totalPageViewsCount = Math.max(
+      totalPageViewsAggregate,
+      totalPageViewsDirect,
+    );
+    const uniqueVisitorsCount = Math.max(
+      uniqueVisitorsAggregate,
+      uniqueSessionsDirect,
+    );
 
     // Get earliest page view for tracking since date (single doc fetch)
     const firstView = await ctx.db
@@ -284,9 +301,12 @@ export const getStats = query({
       .withIndex("by_published", (q) => q.eq("published", true))
       .collect();
 
-    // Build page stats using aggregate counts (O(log n) per path)
+    // Build page stats using maximum of aggregate vs direct counts
+    // This ensures all historical views are shown even if aggregates aren't fully backfilled
     const pageStatsPromises = allPaths.map(async (path) => {
-      const views = pathCountsFromAggregate[path] || 0;
+      const aggregateCount = pathCountsFromAggregate[path] || 0;
+      const directCount = pathCountsDirect[path] || 0;
+      const views = Math.max(aggregateCount, directCount);
 
       // Match path to post or page for title
       const slug = path.startsWith("/") ? path.slice(1) : path;
