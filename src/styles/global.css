@@ -314,6 +314,7 @@ body {
   max-width: 800px;
   width: 100%;
   margin: 0 auto;
+  margin-top: 60px;
   /*  padding: 40px 24px; */
 }
 
@@ -648,12 +649,12 @@ body {
 
 /* Post page styles */
 .post-page {
-  padding-top: 55px;
+  padding-top: 0px;
 }
 
 /* Full-width sidebar layout - breaks out of .main-content constraints */
 .post-page-with-sidebar {
-  padding-top: 20px;
+  padding-top: 0px;
   /* Break out of the 680px max-width container */
   width: calc(100vw - 48px);
   max-width: none;
