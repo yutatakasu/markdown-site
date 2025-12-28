@@ -145,6 +145,20 @@ export default function Layout({ children }: LayoutProps) {
         {children}
       </main>
 
+      {/* Footer */}
+      <footer className="site-footer">
+        <span>
+          made with{" "}
+          <a
+            href="https://www.markdown.fast/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            markdown.fast
+          </a>
+        </span>
+      </footer>
+
       {/* Search modal */}
       <SearchModal isOpen={isSearchOpen} onClose={closeSearch} />
 
