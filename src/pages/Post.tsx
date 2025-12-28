@@ -213,7 +213,7 @@ export default function Post({
     const hasOnlyRightSidebar = hasRightSidebar && !hasLeftSidebar;
 
     return (
-      <div className={`post-page ${hasAnySidebar ? "post-page-with-sidebar" : ""}`}>
+      <div className={`post-page page-transition ${hasAnySidebar ? "post-page-with-sidebar" : ""}`}>
         <nav className={`post-nav ${hasAnySidebar ? "post-nav-with-sidebar" : ""}`}>
           {/* Hide back-button when sidebars are enabled or when used as homepage */}
           {!hasAnySidebar && !isHomepage && (
@@ -375,7 +375,7 @@ export default function Post({
 
   // Render blog post with full metadata
   return (
-    <div className={`post-page ${hasAnySidebar ? "post-page-with-sidebar" : ""}`}>
+    <div className={`post-page page-transition ${hasAnySidebar ? "post-page-with-sidebar" : ""}`}>
       <nav className={`post-nav ${hasAnySidebar ? "post-nav-with-sidebar" : ""}`}>
         {/* Hide back-button when sidebars are enabled or when used as homepage */}
         {!hasAnySidebar && !isHomepage && (

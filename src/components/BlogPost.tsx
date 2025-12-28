@@ -272,19 +272,41 @@ interface BlogPostProps {
 type ContentSegment =
   | { type: "content"; value: string }
   | { type: "newsletter" }
-  | { type: "contactform" };
+  | { type: "contactform" }
+  | { type: "youtube"; videoId: string };
+
+// Extract YouTube video ID from various URL formats
+function getYouTubeId(url: string): string | null {
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([^&?/\s]+)/);
+  return match ? match[1] : null;
+}
+
+// YouTube embed component
+function YouTubeEmbed({ videoId }: { videoId: string }) {
+  return (
+    <div className="youtube-embed">
+      <iframe
+        src={`https://www.youtube.com/embed/${videoId}`}
+        title="YouTube video"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    </div>
+  );
+}
 
 // Parse content for inline embed placeholders
-// Supports: <!-- newsletter --> and <!-- contactform -->
+// Supports: <!-- newsletter -->, <!-- contactform -->, and { type: "video", url: "..." }
 function parseContentForEmbeds(content: string): ContentSegment[] {
   const segments: ContentSegment[] = [];
-  
-  // Pattern matches <!-- newsletter --> or <!-- contactform --> (case insensitive)
-  const pattern = /<!--\s*(newsletter|contactform)\s*-->/gi;
-  
+
+  // Combined pattern for all embed types
+  // Matches: <!-- newsletter -->, <!-- contactform -->, or { type: "video", url: "..." }
+  const pattern = /<!--\s*(newsletter|contactform)\s*-->|\{\s*type:\s*"video",\s*url:\s*"([^"]+)"\s*\}/gi;
+
   let lastIndex = 0;
   let match: RegExpExecArray | null;
-  
+
   while ((match = pattern.exec(content)) !== null) {
     // Add content before the placeholder
     if (match.index > lastIndex) {
@@ -293,18 +315,27 @@ function parseContentForEmbeds(content: string): ContentSegment[] {
         segments.push({ type: "content", value: textBefore });
       }
     }
-    
+
     // Add the embed placeholder
-    const embedType = match[1].toLowerCase();
-    if (embedType === "newsletter") {
-      segments.push({ type: "newsletter" });
-    } else if (embedType === "contactform") {
-      segments.push({ type: "contactform" });
+    if (match[1]) {
+      // HTML comment style: <!-- newsletter --> or <!-- contactform -->
+      const embedType = match[1].toLowerCase();
+      if (embedType === "newsletter") {
+        segments.push({ type: "newsletter" });
+      } else if (embedType === "contactform") {
+        segments.push({ type: "contactform" });
+      }
+    } else if (match[2]) {
+      // JSON style: { type: "video", url: "..." }
+      const videoId = getYouTubeId(match[2]);
+      if (videoId) {
+        segments.push({ type: "youtube", videoId });
+      }
     }
-    
+
     lastIndex = match.index + match[0].length;
   }
-  
+
   // Add remaining content after last placeholder
   if (lastIndex < content.length) {
     const remaining = content.slice(lastIndex);
@@ -312,12 +343,12 @@ function parseContentForEmbeds(content: string): ContentSegment[] {
       segments.push({ type: "content", value: remaining });
     }
   }
-  
+
   // If no placeholders found, return single content segment
   if (segments.length === 0) {
     segments.push({ type: "content", value: content });
   }
-  
+
   return segments;
 }
 
@@ -600,6 +631,10 @@ export default function BlogPost({ content, slug, pageType = "post" }: BlogPostP
                 source={source}
               />
             ) : null;
+          }
+          if (segment.type === "youtube") {
+            // YouTube video embed
+            return <YouTubeEmbed key={`youtube-${index}`} videoId={segment.videoId} />;
           }
           // Markdown content segment
           return renderMarkdown(segment.value, index);

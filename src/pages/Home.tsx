@@ -119,7 +119,7 @@ export default function Home() {
   const showPostsOnHome = siteConfig.postsDisplay.showOnHome;
 
   return (
-    <div className="home">
+    <div className="home page-transition">
       {/* Site header */}
       <header className="home-header">
         <h1 className="home-name">Yuta Takasu</h1>
