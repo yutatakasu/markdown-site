@@ -297,8 +297,8 @@ export interface SiteConfig {
 // Customize this for your site
 export const siteConfig: SiteConfig = {
   // Basic site info
-  name: "",
-  title: "My Blog",
+  name: "Yuta Takasu",
+  title: "Yuta's Blog",
   // Optional logo/header image (place in public/images/, set to null to hide)
   logo: null,
   intro: null,
@@ -426,7 +426,7 @@ export const siteConfig: SiteConfig = {
   // These links use GitHub raw URLs since AI services can reliably fetch from GitHub
   // Note: Content must be pushed to GitHub for AI links to work
   gitHubRepo: {
-    owner: "waynesutton", // GitHub username or organization
+    owner: "yutatakasu", // GitHub username or organization
     repo: "markdown-site", // Repository name
     branch: "main", // Default branch
     contentPath: "public/raw", // Path to raw markdown files
