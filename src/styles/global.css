@@ -468,6 +468,29 @@ body {
   color: var(--link-hover);
 }
 
+/* Social links */
+.home-socials {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: var(--font-size-sm);
+}
+
+.home-socials a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.home-socials a:hover {
+  color: var(--text-primary);
+}
+
+.social-separator {
+  color: var(--text-muted);
+}
+
 /* Language filter tabs */
 .language-tabs {
   display: flex;

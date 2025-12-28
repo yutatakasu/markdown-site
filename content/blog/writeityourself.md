@@ -1,6 +1,6 @@
 ---
 title: Write It Yourself
-description: Creating a culture of documenting yourself in an AI startup
+description: Creating a culture of documentation in a Japanese AI startup
 date: "2025-12-25"
 slug: write-it-yourself
 published: true

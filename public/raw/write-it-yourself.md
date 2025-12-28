@@ -8,8 +8,6 @@ Date: 2025-12-25
 Reading time: 6 min read
 ---
 
-# Write It Yourself
-
 > This note is a reflective note to myself. However, I believe this kind of behavior is universal to many startups and thought it may be nice to share.
 
 # Why are there so many words, but so little action?

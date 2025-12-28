@@ -128,6 +128,11 @@ export default function Home() {
           <br /><br />
           初めまして。<a href="https://www.atlas-tech.co.jp/" target="_blank" rel="noopener noreferrer">Atlas株式会社</a>で執行役員をしながら、<a href="https://www.eka.is/" target="_blank" rel="noopener noreferrer">Eka</a>というAIパブリッシングツールを作っています。文章は拙いですが、書くことが好きです。書くと頭が整理されて、整理されると自信が湧いてくる。そんな気持ちで、学んだことや考えたことをここに残していこうと思います。
         </p>
+        <div className="home-socials">
+          <a href="https://x.com/YutaTakasu2" target="_blank" rel="noopener noreferrer">X</a>
+          <span className="social-separator">·</span>
+          <a href="https://www.linkedin.com/in/yuta-takasu-6a5845264/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
       </header>
 
       {/* Language filter tabs */}
