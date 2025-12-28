@@ -297,12 +297,12 @@ export interface SiteConfig {
 // Customize this for your site
 export const siteConfig: SiteConfig = {
   // Basic site info
-  name: 'markdown "sync" framework',
-  title: "markdown sync framework",
+  name: "",
+  title: "My Blog",
   // Optional logo/header image (place in public/images/, set to null to hide)
-  logo: "/images/logo.svg",
-  intro: null, // Set in Home.tsx to allow JSX with links
-  bio: `Your content is instantly available to browsers, LLMs, and AI agents.`,
+  logo: null,
+  intro: null,
+  bio: "",
 
   // Font family configuration
   // Options: "serif" (New York), "sans" (system fonts), "monospace" (IBM Plex Mono)
@@ -319,7 +319,7 @@ export const siteConfig: SiteConfig = {
   // scrolling: true = infinite scroll marquee, false = static centered grid
   // maxItems: only used when scrolling is false (default: 4)
   logoGallery: {
-    enabled: true,
+    enabled: false,
     images: [
       {
         src: "/images/logos/convex-wordmark-black.svg",
@@ -360,7 +360,7 @@ export const siteConfig: SiteConfig = {
   // GitHub contributions graph configuration
   // Set enabled to false to hide, or change username to your GitHub username
   gitHubContributions: {
-    enabled: true, // Set to false to hide the contributions graph
+    enabled: false, // Set to false to hide the contributions graph
     username: "waynesutton", // Your GitHub username
     showYearNavigation: true, // Show arrows to navigate between years
     linkToProfile: true, // Click graph to open GitHub profile
@@ -385,8 +385,8 @@ export const siteConfig: SiteConfig = {
   // Blog page configuration
   // Set enabled to true to create a dedicated /blog page
   blogPage: {
-    enabled: true, // Enable the /blog route
-    showInNav: true, // Show "Blog" link in navigation
+    enabled: false, // Enable the /blog route
+    showInNav: false, // Show "Blog" link in navigation
     title: "Blog", // Page title
     description: "All posts from the blog, sorted by date.", // Optional description
     order: 2, // Nav order (lower = first, e.g., 0 = first, 5 = after pages with order 0-4)
@@ -397,20 +397,7 @@ export const siteConfig: SiteConfig = {
   // Hardcoded navigation items for React routes
   // Add React route pages (like /stats, /write) that should appear in navigation
   // Set showInNav: false to hide from nav while keeping the route accessible
-  hardcodedNavItems: [
-    {
-      slug: "stats",
-      title: "Stats",
-      order: 10,
-      showInNav: true,
-    },
-    {
-      slug: "write",
-      title: "Write",
-      order: 20,
-      showInNav: true,
-    },
-  ],
+  hardcodedNavItems: [],
 
   // Posts display configuration
   // Controls where the post list appears
@@ -418,10 +405,10 @@ export const siteConfig: SiteConfig = {
   // Set showOnHome to false to only show posts on /blog page
   postsDisplay: {
     showOnHome: true, // Show post list on homepage
-    showOnBlogPage: true, // Show post list on /blog page
-    homePostsLimit: 5, // Limit number of posts on homepage (undefined = show all)
+    showOnBlogPage: false, // Show post list on /blog page
+    homePostsLimit: undefined, // Limit number of posts on homepage (undefined = show all)
     homePostsReadMore: {
-      enabled: true, // Show "read more" link when posts are limited
+      enabled: false, // Show "read more" link when posts are limited
       text: "Read more blog posts", // Customizable link text
       link: "/blog", // URL to link to (usually "/blog")
     },
@@ -457,8 +444,8 @@ export const siteConfig: SiteConfig = {
   // Footer content can be set in frontmatter (footer field) or use defaultContent here
   // Use showFooter: false in frontmatter to hide footer on specific posts/pages
   footer: {
-    enabled: true, // Global toggle for footer
-    showOnHomepage: true, // Show footer on homepage
+    enabled: false, // Global toggle for footer
+    showOnHomepage: false, // Show footer on homepage
     showOnPosts: true, // Default: show footer on blog posts (override with frontmatter)
     showOnPages: true, // Default: show footer on static pages (override with frontmatter)
     showOnBlogPage: true, // Show footer on /blog page
@@ -490,7 +477,7 @@ Created by [Wayne](https://x.com/waynesutton) with Convex, Cursor, and Claude Op
   // Set enabled: true and configure AgentMail to activate
   // Requires AGENTMAIL_API_KEY and AGENTMAIL_INBOX environment variables in Convex dashboard
   newsletter: {
-    enabled: true, // Set to true to enable newsletter signup forms
+    enabled: false, // Set to true to enable newsletter signup forms
     signup: {
       home: {
         enabled: true,
@@ -518,7 +505,7 @@ Created by [Wayne](https://x.com/waynesutton) with Convex, Cursor, and Claude Op
   // Requires AGENTMAIL_API_KEY and AGENTMAIL_INBOX in Convex dashboard
   // Optionally set AGENTMAIL_CONTACT_EMAIL to override recipient (defaults to AGENTMAIL_INBOX)
   contactForm: {
-    enabled: true, // Global toggle for contact form feature
+    enabled: false, // Global toggle for contact form feature
     title: "Get in Touch",
     description: "Send us a message and we'll get back to you.",
   },
@@ -528,7 +515,7 @@ Created by [Wayne](https://x.com/waynesutton) with Convex, Cursor, and Claude Op
   // Can work with or without the main footer
   // Use showSocialFooter: false in frontmatter to hide on specific posts/pages
   socialFooter: {
-    enabled: true, // Global toggle for social footer
+    enabled: false, // Global toggle for social footer
     showOnHomepage: true, // Show social footer on homepage
     showOnPosts: true, // Default: show social footer on blog posts
     showOnPages: true, // Default: show social footer on static pages

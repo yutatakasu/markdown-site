@@ -97,7 +97,6 @@ export default function PostList({
     <div className="post-list">
       {years.map((year) => (
         <div key={year} className="post-year-group">
-          <h2 className="year-heading">{year}</h2>
           <ul className="posts">
             {groupedPosts[year].map((post) => (
               <li key={post._id} className="post-item">

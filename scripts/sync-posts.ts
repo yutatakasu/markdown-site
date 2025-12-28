@@ -29,6 +29,7 @@ interface PostFrontmatter {
   slug: string;
   published: boolean;
   tags: string[];
+  language?: string; // Language: "en" for English, "ja" for Japanese
   readTime?: string;
   image?: string; // Header/OG image URL
   showImageAtTop?: boolean; // Display image at top of post (default: false)
@@ -56,6 +57,7 @@ interface ParsedPost {
   date: string;
   published: boolean;
   tags: string[];
+  language?: string; // Language: "en" for English, "ja" for Japanese
   readTime?: string;
   image?: string; // Header/OG image URL
   showImageAtTop?: boolean; // Display image at top of post (default: false)
@@ -153,6 +155,7 @@ function parseMarkdownFile(filePath: string): ParsedPost | null {
       date: frontmatter.date,
       published: frontmatter.published ?? true,
       tags: frontmatter.tags || [],
+      language: frontmatter.language, // Language: "en" or "ja"
       readTime: frontmatter.readTime || calculateReadTime(content),
       image: frontmatter.image, // Header/OG image URL
       showImageAtTop: frontmatter.showImageAtTop, // Display image at top of post

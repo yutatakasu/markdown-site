@@ -11,6 +11,7 @@ export default defineSchema({
     date: v.string(),
     published: v.boolean(),
     tags: v.array(v.string()),
+    language: v.optional(v.string()), // Language: "en" for English, "ja" for Japanese
     readTime: v.optional(v.string()),
     image: v.optional(v.string()), // Header/OG image URL
     showImageAtTop: v.optional(v.boolean()), // Display image at top of post (default: false)
@@ -35,6 +36,7 @@ export default defineSchema({
     .index("by_published", ["published"])
     .index("by_featured", ["featured"])
     .index("by_blogFeatured", ["blogFeatured"])
+    .index("by_language", ["language"])
     .searchIndex("search_content", {
       searchField: "content",
       filterFields: ["published"],

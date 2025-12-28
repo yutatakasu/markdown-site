@@ -438,22 +438,6 @@ export default function Post({
             )}
           </div>
           <div className="post-meta-header">
-            {/* Author avatar and name (optional) */}
-            {(post.authorImage || post.authorName) && (
-              <div className="post-author">
-                {post.authorImage && (
-                  <img
-                    src={post.authorImage}
-                    alt={post.authorName || "Author"}
-                    className="post-author-image"
-                  />
-                )}
-                {post.authorName && (
-                  <span className="post-author-name">{post.authorName}</span>
-                )}
-                <span className="post-meta-separator">·</span>
-              </div>
-            )}
             <time className="post-date">
               {format(parseISO(post.date), "MMMM yyyy")}
             </time>
@@ -513,25 +497,6 @@ export default function Post({
                   {tag}
                 </Link>
               ))}
-            </div>
-          )}
-
-          {/* Related posts section - only shown for blog posts with shared tags */}
-          {relatedPosts && relatedPosts.length > 0 && (
-            <div className="related-posts">
-              <h3 className="related-posts-title">Related Posts</h3>
-              <ul className="related-posts-list">
-                {relatedPosts.map((relatedPost) => (
-                  <li key={relatedPost.slug} className="related-post-item">
-                    <Link to={`/${relatedPost.slug}`} className="related-post-link">
-                      <span className="related-post-title">{relatedPost.title}</span>
-                      {relatedPost.readTime && (
-                        <span className="related-post-meta">{relatedPost.readTime}</span>
-                      )}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
             </div>
           )}
 

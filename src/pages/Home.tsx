@@ -11,8 +11,15 @@ import SocialFooter from "../components/SocialFooter";
 import NewsletterSignup from "../components/NewsletterSignup";
 import siteConfig from "../config/siteConfig";
 
-// Local storage key for view mode preference
+// Local storage keys for preferences
 const VIEW_MODE_KEY = "featured-view-mode";
+const LANGUAGE_KEY = "language-filter";
+
+// Pagination config
+const POSTS_PER_PAGE = 5;
+
+// Language filter type
+type LanguageFilter = "all" | "en" | "ja";
 
 export default function Home() {
   // Fetch published posts from Convex (only if showing on home)
@@ -30,13 +37,42 @@ export default function Home() {
     siteConfig.featuredViewMode,
   );
 
-  // Load saved view mode preference from localStorage
+  // State for language filter
+  const [languageFilter, setLanguageFilter] = useState<LanguageFilter>("all");
+
+  // State for pagination
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Load saved preferences from localStorage
   useEffect(() => {
-    const saved = localStorage.getItem(VIEW_MODE_KEY);
-    if (saved === "list" || saved === "cards") {
-      setViewMode(saved);
+    const savedViewMode = localStorage.getItem(VIEW_MODE_KEY);
+    if (savedViewMode === "list" || savedViewMode === "cards") {
+      setViewMode(savedViewMode);
+    }
+    const savedLanguage = localStorage.getItem(LANGUAGE_KEY);
+    if (savedLanguage === "all" || savedLanguage === "en" || savedLanguage === "ja") {
+      setLanguageFilter(savedLanguage);
     }
   }, []);
+
+  // Handle language filter change (reset to page 1)
+  const handleLanguageChange = (lang: LanguageFilter) => {
+    setLanguageFilter(lang);
+    setCurrentPage(1);
+    localStorage.setItem(LANGUAGE_KEY, lang);
+  };
+
+  // Filter posts by language property
+  const filteredPosts = posts?.filter((post) => {
+    if (languageFilter === "all") return true;
+    return post.language === languageFilter;
+  });
+
+  // Pagination calculations
+  const totalPosts = filteredPosts?.length ?? 0;
+  const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+  const paginatedPosts = filteredPosts?.slice(startIndex, startIndex + POSTS_PER_PAGE);
 
   // Toggle view mode and save preference
   const toggleViewMode = () => {
@@ -84,140 +120,75 @@ export default function Home() {
 
   return (
     <div className="home">
-      {/* Header section with intro */}
+      {/* Site header */}
       <header className="home-header">
-        {/* Optional site logo */}
-        {siteConfig.logo && (
-          <img
-            src={siteConfig.logo}
-            alt={siteConfig.name}
-            className="home-logo"
-          />
-        )}
-        <h1 className="home-name">{siteConfig.name}</h1>
-
-        {/* Intro with JSX support for links */}
-        <p className="home-intro">
-          An open-source publishing framework built for AI agents and developers
-          to ship websites, docs, or blogs. <br></br>
-          <br /> Write markdown, sync from the terminal.{" "}
-          <a
-            href="https://github.com/waynesutton/markdown-site"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Fork it
-          </a>
-          , customize it, ship it.
-        </p>
-
-        <p className="home-bio">{siteConfig.bio}</p>
-
-        {/* Newsletter signup (below-intro position) */}
-        {siteConfig.newsletter?.enabled &&
-          siteConfig.newsletter.signup.home.enabled &&
-          siteConfig.newsletter.signup.home.position === "below-intro" && (
-            <NewsletterSignup source="home" />
-          )}
-
-        {/* Featured section with optional view toggle */}
-        {hasFeaturedContent && (
-          <div className="home-featured">
-            <div className="home-featured-header">
-              <p className="home-featured-intro">Get started:</p>
-              {siteConfig.showViewToggle && (
-                <button
-                  className="view-toggle-button"
-                  onClick={toggleViewMode}
-                  aria-label={`Switch to ${viewMode === "list" ? "card" : "list"} view`}
-                >
-                  {viewMode === "list" ? (
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <rect x="3" y="3" width="7" height="7" />
-                      <rect x="14" y="3" width="7" height="7" />
-                      <rect x="3" y="14" width="7" height="7" />
-                      <rect x="14" y="14" width="7" height="7" />
-                    </svg>
-                  ) : (
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <line x1="8" y1="6" x2="21" y2="6" />
-                      <line x1="8" y1="12" x2="21" y2="12" />
-                      <line x1="8" y1="18" x2="21" y2="18" />
-                      <line x1="3" y1="6" x2="3.01" y2="6" />
-                      <line x1="3" y1="12" x2="3.01" y2="12" />
-                      <line x1="3" y1="18" x2="3.01" y2="18" />
-                    </svg>
-                  )}
-                </button>
-              )}
-            </div>
-
-            {/* Render list or card view based on mode */}
-            {viewMode === "list" ? (
-              <ul className="home-featured-list">
-                {featuredList.map((item) => (
-                  <li key={item.slug}>
-                    <Link to={`/${item.slug}`} className="home-featured-link">
-                      {item.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <FeaturedCards useFrontmatter={true} />
-            )}
-          </div>
-        )}
+        <h1 className="home-name">Your Blog Name</h1>
+        <p className="home-bio">A short description of your blog goes here.</p>
       </header>
 
-      {/* Logo gallery (below-featured position) */}
-      {renderLogoGallery("below-featured")}
+      {/* Language filter tabs */}
+      <div className="language-tabs">
+        <button
+          className={`language-tab ${languageFilter === "all" ? "active" : ""}`}
+          onClick={() => handleLanguageChange("all")}
+        >
+          All
+        </button>
+        <button
+          className={`language-tab ${languageFilter === "en" ? "active" : ""}`}
+          onClick={() => handleLanguageChange("en")}
+        >
+          English
+        </button>
+        <button
+          className={`language-tab ${languageFilter === "ja" ? "active" : ""}`}
+          onClick={() => handleLanguageChange("ja")}
+        >
+          Japanese
+        </button>
+      </div>
 
       {/* Blog posts section - conditionally shown based on config */}
       {showPostsOnHome && (
         <section id="posts" className="home-posts">
-          {posts === undefined ? null : posts.length === 0 ? (
+          {paginatedPosts === undefined ? null : paginatedPosts.length === 0 ? (
             <p className="no-posts">No posts yet. Check back soon!</p>
           ) : (
             <>
-              <PostList
-                posts={
-                  siteConfig.postsDisplay.homePostsLimit
-                    ? posts.slice(0, siteConfig.postsDisplay.homePostsLimit)
-                    : posts
-                }
-              />
-              {/* Show "read more" link if enabled and there are more posts than the limit */}
-              {siteConfig.postsDisplay.homePostsReadMore?.enabled &&
-                siteConfig.postsDisplay.homePostsLimit &&
-                posts.length > siteConfig.postsDisplay.homePostsLimit && (
-                  <div className="home-posts-read-more">
-                    <Link
-                      to={siteConfig.postsDisplay.homePostsReadMore.link}
-                      className="home-posts-read-more-link"
-                    >
-                      {siteConfig.postsDisplay.homePostsReadMore.text}
-                    </Link>
+              <PostList posts={paginatedPosts} />
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="pagination">
+                  <button
+                    className="pagination-btn"
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </button>
+
+                  <div className="pagination-pages">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        className={`pagination-page ${currentPage === page ? "active" : ""}`}
+                        onClick={() => setCurrentPage(page)}
+                      >
+                        {page}
+                      </button>
+                    ))}
                   </div>
-                )}
+
+                  <button
+                    className="pagination-btn"
+                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
             </>
           )}
         </section>
