@@ -120,6 +120,11 @@ export default function Home() {
 
   return (
     <div className="home page-transition">
+      {/* Hero banner image */}
+      <div className="home-banner">
+        <img src="/images/og-default.jpg" alt="Mountain landscape" />
+      </div>
+
       {/* Site header */}
       <header className="home-header">
         <h1 className="home-name">Yuta Takasu</h1>
