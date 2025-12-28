@@ -5,6 +5,8 @@ date: "2025-12-25"
 slug: write-it-yourself
 published: true
 language: en
+image: /images/write-it-yourself.webp
+showImageAtTop: true
 ---
 
 > This note is a reflective note to myself. However, I believe this kind of behavior is universal to many startups and thought it may be nice to share.
