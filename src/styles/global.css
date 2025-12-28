@@ -7850,21 +7850,3 @@ body {
 .site-footer:hover {
   opacity: 0.8;
 }
-
-/* ============================================
-   HOME BANNER
-   ============================================ */
-.home-banner {
-  width: 100%;
-  margin-bottom: 2rem;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.home-banner img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-  max-height: 300px;
-}
