@@ -122,8 +122,12 @@ export default function Home() {
     <div className="home">
       {/* Site header */}
       <header className="home-header">
-        <h1 className="home-name">Your Blog Name</h1>
-        <p className="home-bio">A short description of your blog goes here.</p>
+        <h1 className="home-name">Yuta Takasu</h1>
+        <p className="home-bio">
+          Thanks for stopping by. I'm an Executive Officer at <a href="https://www.atlas-tech.co.jp/" target="_blank" rel="noopener noreferrer">Atlas inc</a>, building <a href="https://www.eka.is/" target="_blank" rel="noopener noreferrer">Eka</a>—an AI publishing platform that frees the writer's mind. My writing might be messy and informal, but I love it. Writing clears my thoughts, and clarity brings confidence. I wanted a place to share what I learn and think, so here we are.
+          <br /><br />
+          初めまして。<a href="https://www.atlas-tech.co.jp/" target="_blank" rel="noopener noreferrer">Atlas株式会社</a>で執行役員をしながら、<a href="https://www.eka.is/" target="_blank" rel="noopener noreferrer">Eka</a>というAIパブリッシングツールを作っています。文章は拙いですが、書くことが好きです。書くと頭が整理されて、整理されると自信が湧いてくる。そんな気持ちで、学んだことや考えたことをここに残していこうと思います。
+        </p>
       </header>
 
       {/* Language filter tabs */}

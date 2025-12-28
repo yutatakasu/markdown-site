@@ -25,7 +25,7 @@ const RAW_OUTPUT_DIR = path.join(process.cwd(), "public", "raw");
 interface PostFrontmatter {
   title: string;
   description: string;
-  date: string;
+  date: string | Date; // gray-matter may parse as Date
   slug: string;
   published: boolean;
   tags: string[];
@@ -133,6 +133,26 @@ function calculateReadTime(content: string): string {
   return `${minutes} min read`;
 }
 
+// Helper to convert date to string format (YYYY-MM-DD)
+function formatDateToString(date: string | Date): string {
+  if (date instanceof Date) {
+    return date.toISOString().split("T")[0];
+  }
+  // If it's already a string, ensure it's in the correct format
+  return String(date).split("T")[0];
+}
+
+// Helper to remove undefined values from an object
+function removeUndefined<T extends object>(obj: T): Partial<T> {
+  const result: Partial<T> = {};
+  for (const key in obj) {
+    if (obj[key] !== undefined) {
+      result[key] = obj[key];
+    }
+  }
+  return result;
+}
+
 // Parse a single markdown file
 function parseMarkdownFile(filePath: string): ParsedPost | null {
   try {
@@ -147,33 +167,38 @@ function parseMarkdownFile(filePath: string): ParsedPost | null {
       return null;
     }
 
-    return {
+    // Build the post object with only defined values
+    const post: ParsedPost = {
       slug: frontmatter.slug,
       title: frontmatter.title,
       description: frontmatter.description || "",
       content: content.trim(),
-      date: frontmatter.date,
+      date: formatDateToString(frontmatter.date),
       published: frontmatter.published ?? true,
       tags: frontmatter.tags || [],
-      language: frontmatter.language, // Language: "en" or "ja"
       readTime: frontmatter.readTime || calculateReadTime(content),
-      image: frontmatter.image, // Header/OG image URL
-      showImageAtTop: frontmatter.showImageAtTop, // Display image at top of post
-      excerpt: frontmatter.excerpt, // Short excerpt for card view
-      featured: frontmatter.featured, // Show in featured section
-      featuredOrder: frontmatter.featuredOrder, // Order in featured section
-      authorName: frontmatter.authorName, // Author display name
-      authorImage: frontmatter.authorImage, // Author avatar image URL
-      layout: frontmatter.layout, // Layout type: "sidebar" for docs-style layout
-      rightSidebar: frontmatter.rightSidebar, // Enable right sidebar with CopyPageDropdown
-      showFooter: frontmatter.showFooter, // Show footer on this post
-      footer: frontmatter.footer, // Footer markdown content
-      showSocialFooter: frontmatter.showSocialFooter, // Show social footer on this post
-      aiChat: frontmatter.aiChat, // Enable AI chat in right sidebar
-      blogFeatured: frontmatter.blogFeatured, // Show as hero featured post on /blog page
-      newsletter: frontmatter.newsletter, // Override newsletter signup display
-      contactForm: frontmatter.contactForm, // Enable contact form on this post
     };
+
+    // Add optional fields only if they are defined
+    if (frontmatter.language !== undefined) post.language = frontmatter.language;
+    if (frontmatter.image !== undefined) post.image = frontmatter.image;
+    if (frontmatter.showImageAtTop !== undefined) post.showImageAtTop = frontmatter.showImageAtTop;
+    if (frontmatter.excerpt !== undefined) post.excerpt = frontmatter.excerpt;
+    if (frontmatter.featured !== undefined) post.featured = frontmatter.featured;
+    if (frontmatter.featuredOrder !== undefined) post.featuredOrder = frontmatter.featuredOrder;
+    if (frontmatter.authorName !== undefined) post.authorName = frontmatter.authorName;
+    if (frontmatter.authorImage !== undefined) post.authorImage = frontmatter.authorImage;
+    if (frontmatter.layout !== undefined) post.layout = frontmatter.layout;
+    if (frontmatter.rightSidebar !== undefined) post.rightSidebar = frontmatter.rightSidebar;
+    if (frontmatter.showFooter !== undefined) post.showFooter = frontmatter.showFooter;
+    if (frontmatter.footer !== undefined) post.footer = frontmatter.footer;
+    if (frontmatter.showSocialFooter !== undefined) post.showSocialFooter = frontmatter.showSocialFooter;
+    if (frontmatter.aiChat !== undefined) post.aiChat = frontmatter.aiChat;
+    if (frontmatter.blogFeatured !== undefined) post.blogFeatured = frontmatter.blogFeatured;
+    if (frontmatter.newsletter !== undefined) post.newsletter = frontmatter.newsletter;
+    if (frontmatter.contactForm !== undefined) post.contactForm = frontmatter.contactForm;
+
+    return post;
   } catch (error) {
     console.error(`Error parsing ${filePath}:`, error);
     return null;
@@ -210,29 +235,34 @@ function parsePageFile(filePath: string): ParsedPage | null {
       return null;
     }
 
-    return {
+    // Build the page object with only defined values
+    const page: ParsedPage = {
       slug: frontmatter.slug,
       title: frontmatter.title,
       content: content.trim(),
       published: frontmatter.published ?? true,
-      order: frontmatter.order,
-      showInNav: frontmatter.showInNav, // Show in navigation menu (default: true)
-      excerpt: frontmatter.excerpt, // Short excerpt for card view
-      image: frontmatter.image, // Thumbnail/OG image URL for featured cards
-      showImageAtTop: frontmatter.showImageAtTop, // Display image at top of page
-      featured: frontmatter.featured, // Show in featured section
-      featuredOrder: frontmatter.featuredOrder, // Order in featured section
-      authorName: frontmatter.authorName, // Author display name
-      authorImage: frontmatter.authorImage, // Author avatar image URL
-      layout: frontmatter.layout, // Layout type: "sidebar" for docs-style layout
-      rightSidebar: frontmatter.rightSidebar, // Enable right sidebar with CopyPageDropdown
-      showFooter: frontmatter.showFooter, // Show footer on this page
-      footer: frontmatter.footer, // Footer markdown content
-      showSocialFooter: frontmatter.showSocialFooter, // Show social footer on this page
-      aiChat: frontmatter.aiChat, // Enable AI chat in right sidebar
-      contactForm: frontmatter.contactForm, // Enable contact form on this page
-      newsletter: frontmatter.newsletter, // Override newsletter signup display
     };
+
+    // Add optional fields only if they are defined
+    if (frontmatter.order !== undefined) page.order = frontmatter.order;
+    if (frontmatter.showInNav !== undefined) page.showInNav = frontmatter.showInNav;
+    if (frontmatter.excerpt !== undefined) page.excerpt = frontmatter.excerpt;
+    if (frontmatter.image !== undefined) page.image = frontmatter.image;
+    if (frontmatter.showImageAtTop !== undefined) page.showImageAtTop = frontmatter.showImageAtTop;
+    if (frontmatter.featured !== undefined) page.featured = frontmatter.featured;
+    if (frontmatter.featuredOrder !== undefined) page.featuredOrder = frontmatter.featuredOrder;
+    if (frontmatter.authorName !== undefined) page.authorName = frontmatter.authorName;
+    if (frontmatter.authorImage !== undefined) page.authorImage = frontmatter.authorImage;
+    if (frontmatter.layout !== undefined) page.layout = frontmatter.layout;
+    if (frontmatter.rightSidebar !== undefined) page.rightSidebar = frontmatter.rightSidebar;
+    if (frontmatter.showFooter !== undefined) page.showFooter = frontmatter.showFooter;
+    if (frontmatter.footer !== undefined) page.footer = frontmatter.footer;
+    if (frontmatter.showSocialFooter !== undefined) page.showSocialFooter = frontmatter.showSocialFooter;
+    if (frontmatter.aiChat !== undefined) page.aiChat = frontmatter.aiChat;
+    if (frontmatter.contactForm !== undefined) page.contactForm = frontmatter.contactForm;
+    if (frontmatter.newsletter !== undefined) page.newsletter = frontmatter.newsletter;
+
+    return page;
   } catch (error) {
     console.error(`Error parsing page ${filePath}:`, error);
     return null;

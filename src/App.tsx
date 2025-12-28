@@ -7,6 +7,7 @@ import Write from "./pages/Write";
 import TagPage from "./pages/TagPage";
 import Unsubscribe from "./pages/Unsubscribe";
 import NewsletterAdmin from "./pages/NewsletterAdmin";
+import Gallery from "./pages/Gallery";
 import Layout from "./components/Layout";
 import { usePageTracking } from "./hooks/usePageTracking";
 import { SidebarProvider } from "./context/SidebarContext";
@@ -70,6 +71,8 @@ function App() {
           )}
           {/* Tag page route - displays posts filtered by tag */}
           <Route path="/tags/:tag" element={<TagPage />} />
+          {/* Gallery page */}
+          <Route path="/gallery" element={<Gallery />} />
           {/* Catch-all for post/page slugs - must be last */}
           <Route path="/:slug" element={<Post />} />
         </Routes>

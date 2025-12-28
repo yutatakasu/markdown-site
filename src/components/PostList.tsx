@@ -20,21 +20,6 @@ interface PostListProps {
   showExcerpts?: boolean; // Show excerpts in card view (default: true)
 }
 
-// Group posts by year
-function groupByYear(posts: Post[]): Record<string, Post[]> {
-  return posts.reduce(
-    (acc, post) => {
-      const year = post.date.substring(0, 4);
-      if (!acc[year]) {
-        acc[year] = [];
-      }
-      acc[year].push(post);
-      return acc;
-    },
-    {} as Record<string, Post[]>
-  );
-}
-
 export default function PostList({
   posts,
   viewMode = "list",
@@ -75,11 +60,8 @@ export default function PostList({
                 </p>
               )}
               <div className="post-card-meta">
-                {post.readTime && (
-                  <span className="post-card-read-time">{post.readTime}</span>
-                )}
                 <span className="post-card-date">
-                  {format(parseISO(post.date), "MMMM d, yyyy")}
+                  {format(parseISO(post.date), "yyyy MM dd")}
                 </span>
               </div>
             </div>
@@ -89,33 +71,23 @@ export default function PostList({
     );
   }
 
-  // List view: group by year
-  const groupedPosts = groupByYear(sortedPosts);
-  const years = Object.keys(groupedPosts).sort((a, b) => Number(b) - Number(a));
-
+  // List view: flat list sorted by date
   return (
     <div className="post-list">
-      {years.map((year) => (
-        <div key={year} className="post-year-group">
-          <ul className="posts">
-            {groupedPosts[year].map((post) => (
-              <li key={post._id} className="post-item">
-                <Link to={`/${post.slug}`} className="post-link">
-                  <span className="post-title">{post.title}</span>
-                  <span className="post-meta">
-                    {post.readTime && (
-                      <span className="post-read-time">{post.readTime}</span>
-                    )}
-                    <span className="post-date">
-                      {format(parseISO(post.date), "MMMM d")}
-                    </span>
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      <ul className="posts">
+        {sortedPosts.map((post) => (
+          <li key={post._id} className="post-item">
+            <Link to={`/${post.slug}`} className="post-link">
+              <span className="post-title">{post.title}</span>
+              <span className="post-meta">
+                <span className="post-date">
+                  {format(parseISO(post.date), "yyyy MM dd")}
+                </span>
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

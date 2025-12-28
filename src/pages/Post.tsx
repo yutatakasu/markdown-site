@@ -12,7 +12,7 @@ import ContactForm from "../components/ContactForm";
 import { extractHeadings } from "../utils/extractHeadings";
 import { useSidebar } from "../context/SidebarContext";
 import { format, parseISO } from "date-fns";
-import { ArrowLeft, Link as LinkIcon, Twitter, Rss, Tag } from "lucide-react";
+import { ArrowLeft, Link as LinkIcon, Twitter, Rss } from "lucide-react";
 import { useState, useEffect } from "react";
 import siteConfig from "../config/siteConfig";
 
@@ -419,6 +419,11 @@ export default function Post({
           </div>
         )}
         <header className="post-header">
+          <div className="post-meta-header">
+            <time className="post-date">
+              {format(parseISO(post.date), "yyyy MM dd")}
+            </time>
+          </div>
           <div className="post-title-row">
             <h1 className="post-title">{post.title}</h1>
             {/* Show CopyPageDropdown aligned with title when sidebars are enabled */}
@@ -435,17 +440,6 @@ export default function Post({
                   readTime={post.readTime}
                 />
               </div>
-            )}
-          </div>
-          <div className="post-meta-header">
-            <time className="post-date">
-              {format(parseISO(post.date), "MMMM yyyy")}
-            </time>
-            {post.readTime && (
-              <>
-                <span className="post-meta-separator">·</span>
-                <span className="post-read-time">{post.readTime}</span>
-              </>
             )}
           </div>
           {post.description && (
@@ -485,20 +479,6 @@ export default function Post({
             </a>
           </div>
 
-          {post.tags && post.tags.length > 0 && (
-            <div className="post-tags">
-              <Tag size={14} className="post-tags-icon" aria-hidden="true" />
-              {post.tags.map((tag) => (
-                <Link
-                  key={tag}
-                  to={`/tags/${encodeURIComponent(tag.toLowerCase())}`}
-                  className="post-tag post-tag-link"
-                >
-                  {tag}
-                </Link>
-              ))}
-            </div>
-          )}
 
           {/* Newsletter signup - respects frontmatter override (only if not inline) */}
           {siteConfig.newsletter?.enabled &&

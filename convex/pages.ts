@@ -269,3 +269,15 @@ export const syncPagesPublic = mutation({
     return { created, updated, deleted };
   },
 });
+
+// Clear all pages (for development/reset)
+export const clearAllPages = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const pages = await ctx.db.query("pages").collect();
+    for (const page of pages) {
+      await ctx.db.delete(page._id);
+    }
+    return { deleted: pages.length };
+  },
+});

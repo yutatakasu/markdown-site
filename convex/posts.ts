@@ -14,6 +14,7 @@ export const getAllPosts = query({
       date: v.string(),
       published: v.boolean(),
       tags: v.array(v.string()),
+      language: v.optional(v.string()),
       readTime: v.optional(v.string()),
       image: v.optional(v.string()),
       excerpt: v.optional(v.string()),
@@ -49,6 +50,7 @@ export const getAllPosts = query({
       date: post.date,
       published: post.published,
       tags: post.tags,
+      language: post.language,
       readTime: post.readTime,
       image: post.image,
       excerpt: post.excerpt,
@@ -311,6 +313,7 @@ export const syncPosts = internalMutation({
         date: v.string(),
         published: v.boolean(),
         tags: v.array(v.string()),
+        language: v.optional(v.string()),
         readTime: v.optional(v.string()),
         image: v.optional(v.string()),
         showImageAtTop: v.optional(v.boolean()),
@@ -361,6 +364,7 @@ export const syncPosts = internalMutation({
           date: post.date,
           published: post.published,
           tags: post.tags,
+          language: post.language,
           readTime: post.readTime,
           image: post.image,
           showImageAtTop: post.showImageAtTop,
@@ -415,6 +419,7 @@ export const syncPostsPublic = mutation({
         date: v.string(),
         published: v.boolean(),
         tags: v.array(v.string()),
+        language: v.optional(v.string()),
         readTime: v.optional(v.string()),
         image: v.optional(v.string()),
         showImageAtTop: v.optional(v.boolean()),
@@ -465,6 +470,7 @@ export const syncPostsPublic = mutation({
           date: post.date,
           published: post.published,
           tags: post.tags,
+          language: post.language,
           readTime: post.readTime,
           image: post.image,
           showImageAtTop: post.showImageAtTop,
@@ -703,5 +709,17 @@ export const getRelatedPosts = query({
       .slice(0, maxResults);
 
     return relatedPosts;
+  },
+});
+
+// Clear all posts (for development/reset)
+export const clearAllPosts = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const posts = await ctx.db.query("posts").collect();
+    for (const post of posts) {
+      await ctx.db.delete(post._id);
+    }
+    return { deleted: posts.length };
   },
 });
