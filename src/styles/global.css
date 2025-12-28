@@ -220,24 +220,24 @@
 }
 
 :root[data-theme="tan"] {
-  --bg-primary: #faf8f5;
-  --bg-secondary: #f5f3f0;
-  --bg-hover: #ebe9e6;
-  --bg-sidebar: #f5f2ed;
+  --bg-primary: #f5f7fa;
+  --bg-secondary: #f0f2f5;
+  --bg-hover: #e6e9ed;
+  --bg-sidebar: #edf0f4;
   --text-primary: #1a1a1a;
-  --text-secondary: #6b6b6b;
-  --text-muted: #999999;
-  --border-color: #e6e4e1;
-  --border-sidebar: #e0ddd8;
-  --accent: #8b7355;
-  --accent-hover: #735f47;
-  --link-color: #8b7355;
-  --link-hover: #6b5a45;
-  --code-bg: #f0ece4;
-  --code-border: #e6e4e1;
-  --inline-code-bg: #ebe7df;
-  --blockquote-border: #d4cfc6;
-  --blockquote-bg: #f5f3f0;
+  --text-secondary: #5a6370;
+  --text-muted: #8b929e;
+  --border-color: #dfe3e8;
+  --border-sidebar: #d8dde3;
+  --accent: #5a6b7a;
+  --accent-hover: #475563;
+  --link-color: #5a6b7a;
+  --link-hover: #3d4a56;
+  --code-bg: #e8ecf0;
+  --code-border: #dfe3e8;
+  --inline-code-bg: #e3e7ec;
+  --blockquote-border: #c6ccd4;
+  --blockquote-bg: #f0f2f5;
 }
 
 /* Cloud theme - soft gray aesthetic */
