@@ -1,6 +1,6 @@
 # Write It Yourself
 
-> Creating a culture of documenting yourself in an AI startup
+> Creating a culture of documentation in a Japanese AI startup
 
 ---
 Type: post

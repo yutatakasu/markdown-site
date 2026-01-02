@@ -132,6 +132,8 @@ export default function Home() {
           <a href="https://x.com/YutaTakasu2" target="_blank" rel="noopener noreferrer">X</a>
           <span className="social-separator">·</span>
           <a href="https://www.linkedin.com/in/yuta-takasu-6a5845264/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <span className="social-separator">·</span>
+          <Link to="/clips">Reading Notes</Link>
         </div>
       </header>
 

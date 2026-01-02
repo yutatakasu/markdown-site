@@ -8,6 +8,8 @@ import TagPage from "./pages/TagPage";
 import Unsubscribe from "./pages/Unsubscribe";
 import NewsletterAdmin from "./pages/NewsletterAdmin";
 import Gallery from "./pages/Gallery";
+import Clips from "./pages/Clips";
+import ClipsArticle from "./pages/ClipsArticle";
 import Layout from "./components/Layout";
 import { usePageTracking } from "./hooks/usePageTracking";
 import { SidebarProvider } from "./context/SidebarContext";
@@ -73,6 +75,9 @@ function App() {
           <Route path="/tags/:tag" element={<TagPage />} />
           {/* Gallery page */}
           <Route path="/gallery" element={<Gallery />} />
+          {/* Clips pages */}
+          <Route path="/clips" element={<Clips />} />
+          <Route path="/clips/:id" element={<ClipsArticle />} />
           {/* Catch-all for post/page slugs - must be last */}
           <Route path="/:slug" element={<Post />} />
         </Routes>

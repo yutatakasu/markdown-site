@@ -5,6 +5,8 @@ date: "2025-12-24"
 slug: introducing-eka
 published: true
 language: en
+image: /images/introducing-eka.webp
+showImageAtTop: true
 ---
 
 # You have ideas no one else has.

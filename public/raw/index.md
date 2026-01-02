@@ -4,7 +4,7 @@ This is the homepage index of all published content.
 
 ## Blog Posts (4)
 
-- **[Write It Yourself](/raw/write-it-yourself.md)** - Creating a culture of documenting yourself in an AI startup
+- **[Write It Yourself](/raw/write-it-yourself.md)** - Creating a culture of documentation in a Japanese AI startup
   - Date: 2025-12-25 | Reading time: 6 min read
 - **[Introducing Eka](/raw/introducing-eka.md)** - A publishing tool where your ideas find their shape.
   - Date: 2025-12-24 | Reading time: 2 min read
