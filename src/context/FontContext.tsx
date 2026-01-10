@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import siteConfig, { FontFamily } from "../config/siteConfig";
+import { safeGetItem, safeRemoveItem, safeSetItem } from "../utils/safeLocalStorage";
 
 // Default font from siteConfig
 const DEFAULT_FONT: FontFamily = siteConfig.fontFamily;
@@ -28,32 +29,28 @@ const fontFamilies: Record<FontFamily, string> = {
 // Get initial font from localStorage or use default
 // If siteConfig default has changed, prefer the new default over localStorage
 const getInitialFont = (defaultFont: FontFamily): FontFamily => {
-  try {
-    const saved = localStorage.getItem("blog-font-family") as FontFamily;
-    const savedConfigDefault = localStorage.getItem("blog-font-family-config-default") as FontFamily;
-    
-    // If siteConfig default has changed, use the new default instead of saved preference
-    if (savedConfigDefault && savedConfigDefault !== defaultFont) {
-      // SiteConfig default changed - use new default and clear saved preference
-      localStorage.removeItem("blog-font-family");
-      localStorage.setItem("blog-font-family-config-default", defaultFont);
-      return defaultFont;
-    }
-    
-    // Use saved preference if valid
-    if (saved && ["serif", "sans", "monospace"].includes(saved)) {
-      // Store current siteConfig default for future comparison
-      if (!savedConfigDefault) {
-        localStorage.setItem("blog-font-family-config-default", defaultFont);
-      }
-      return saved;
-    }
-    
-    // No saved preference - use siteConfig default
-    localStorage.setItem("blog-font-family-config-default", defaultFont);
-  } catch {
-    // localStorage not available
+  const saved = safeGetItem("blog-font-family") as FontFamily | null;
+  const savedConfigDefault = safeGetItem("blog-font-family-config-default") as FontFamily | null;
+
+  // If siteConfig default has changed, use the new default instead of saved preference
+  if (savedConfigDefault && savedConfigDefault !== defaultFont) {
+    // SiteConfig default changed - use new default and clear saved preference
+    safeRemoveItem("blog-font-family");
+    safeSetItem("blog-font-family-config-default", defaultFont);
+    return defaultFont;
   }
+
+  // Use saved preference if valid
+  if (saved && ["serif", "sans", "monospace"].includes(saved)) {
+    // Store current siteConfig default for future comparison
+    if (!savedConfigDefault) {
+      safeSetItem("blog-font-family-config-default", defaultFont);
+    }
+    return saved;
+  }
+
+  // No saved preference - use siteConfig default
+  safeSetItem("blog-font-family-config-default", defaultFont);
   return defaultFont;
 };
 
@@ -80,7 +77,7 @@ export function FontProvider({
   // Apply font to DOM and persist to localStorage
   useEffect(() => {
     updateFontFamily(fontFamily);
-    localStorage.setItem("blog-font-family", fontFamily);
+    safeSetItem("blog-font-family", fontFamily);
   }, [fontFamily]);
 
   // Set font directly
@@ -112,4 +109,3 @@ export function useFont() {
   }
   return context;
 }
-

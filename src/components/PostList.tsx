@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { format, parseISO } from "date-fns";
+import { format, isValid, parseISO } from "date-fns";
 
 interface Post {
   _id: string;
@@ -26,6 +26,12 @@ export default function PostList({
   columns = 3,
   showExcerpts = true,
 }: PostListProps) {
+  const formatPostDate = (dateString: string) => {
+    const parsed = parseISO(dateString);
+    if (!isValid(parsed)) return dateString;
+    return format(parsed, "yyyy MM dd");
+  };
+
   // Sort posts by date descending
   const sortedPosts = [...posts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -61,7 +67,7 @@ export default function PostList({
               )}
               <div className="post-card-meta">
                 <span className="post-card-date">
-                  {format(parseISO(post.date), "yyyy MM dd")}
+                  {formatPostDate(post.date)}
                 </span>
               </div>
             </div>
@@ -81,7 +87,7 @@ export default function PostList({
               <span className="post-title">{post.title}</span>
               <span className="post-meta">
                 <span className="post-date">
-                  {format(parseISO(post.date), "yyyy MM dd")}
+                  {formatPostDate(post.date)}
                 </span>
               </span>
             </Link>
@@ -91,4 +97,3 @@ export default function PostList({
     </div>
   );
 }
-

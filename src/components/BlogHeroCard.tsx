@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { format, parseISO } from "date-fns";
+import { format, isValid, parseISO } from "date-fns";
 
 interface BlogHeroCardProps {
   slug: string;
@@ -28,6 +28,12 @@ export default function BlogHeroCard({
   authorName,
   authorImage,
 }: BlogHeroCardProps) {
+  const formattedDate = (() => {
+    const parsed = parseISO(date);
+    if (!isValid(parsed)) return date;
+    return format(parsed, "MMM d, yyyy").toUpperCase();
+  })();
+
   return (
     <Link to={`/${slug}`} className="blog-hero-card">
       {/* Hero image on the left */}
@@ -57,7 +63,7 @@ export default function BlogHeroCard({
 
         {/* Date */}
         <time className="blog-hero-date">
-          {format(parseISO(date), "MMM d, yyyy").toUpperCase()}
+          {formattedDate}
         </time>
 
         {/* Title */}

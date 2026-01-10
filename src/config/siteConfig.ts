@@ -397,7 +397,14 @@ export const siteConfig: SiteConfig = {
   // Hardcoded navigation items for React routes
   // Add React route pages (like /stats, /write) that should appear in navigation
   // Set showInNav: false to hide from nav while keeping the route accessible
-  hardcodedNavItems: [],
+  hardcodedNavItems: [
+    {
+      slug: "clips",
+      title: "Clips",
+      order: 10,
+      showInNav: true,
+    },
+  ],
 
   // Posts display configuration
   // Controls where the post list appears

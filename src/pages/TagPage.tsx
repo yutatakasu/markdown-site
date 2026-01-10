@@ -4,6 +4,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import PostList from "../components/PostList";
 import { ArrowLeft, Tag } from "lucide-react";
+import { safeGetItem, safeSetItem } from "../utils/safeLocalStorage";
 
 // Local storage key for tag page view mode preference
 const TAG_VIEW_MODE_KEY = "tag-view-mode";
@@ -36,7 +37,7 @@ export default function TagPage() {
 
   // Load saved view mode preference from localStorage
   useEffect(() => {
-    const saved = localStorage.getItem(TAG_VIEW_MODE_KEY);
+    const saved = safeGetItem(TAG_VIEW_MODE_KEY);
     if (saved === "list" || saved === "cards") {
       setViewMode(saved);
     }
@@ -46,7 +47,7 @@ export default function TagPage() {
   const toggleViewMode = () => {
     const newMode = viewMode === "list" ? "cards" : "list";
     setViewMode(newMode);
-    localStorage.setItem(TAG_VIEW_MODE_KEY, newMode);
+    safeSetItem(TAG_VIEW_MODE_KEY, newMode);
   };
 
   // Update page title
@@ -161,4 +162,3 @@ export default function TagPage() {
     </div>
   );
 }
-

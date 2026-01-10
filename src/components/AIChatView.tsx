@@ -16,14 +16,15 @@ import {
   Link,
   X,
 } from "@phosphor-icons/react";
+import { safeGetItem, safeSetItem } from "../utils/safeLocalStorage";
 
 // Generate a unique session ID for anonymous users
 function getSessionId(): string {
   const key = "ai_chat_session_id";
-  let sessionId = localStorage.getItem(key);
+  let sessionId = safeGetItem(key);
   if (!sessionId) {
     sessionId = crypto.randomUUID();
-    localStorage.setItem(key, sessionId);
+    safeSetItem(key, sessionId);
   }
   return sessionId;
 }

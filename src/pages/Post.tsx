@@ -11,7 +11,7 @@ import NewsletterSignup from "../components/NewsletterSignup";
 import ContactForm from "../components/ContactForm";
 import { extractHeadings } from "../utils/extractHeadings";
 import { useSidebar } from "../context/SidebarContext";
-import { format, parseISO } from "date-fns";
+import { format, isValid, parseISO } from "date-fns";
 import { ArrowLeft, Link as LinkIcon, Twitter, Rss } from "lucide-react";
 import { useState, useEffect } from "react";
 import siteConfig from "../config/siteConfig";
@@ -53,6 +53,11 @@ export default function Post({
   );
   
   const [copied, setCopied] = useState(false);
+  const formattedDate = (() => {
+    const parsed = parseISO(post?.date ?? "");
+    if (!isValid(parsed)) return post?.date ?? "";
+    return format(parsed, "yyyy MM dd");
+  })();
 
   // Scroll to hash anchor after content loads
   useEffect(() => {
@@ -421,7 +426,7 @@ export default function Post({
         <header className="post-header">
           <div className="post-meta-header">
             <time className="post-date">
-              {format(parseISO(post.date), "yyyy MM dd")}
+              {formattedDate}
             </time>
           </div>
           <div className="post-title-row">

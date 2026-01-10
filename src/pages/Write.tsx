@@ -17,6 +17,7 @@ import { useTheme } from "../context/ThemeContext";
 import { useFont } from "../context/FontContext";
 import AIChatView from "../components/AIChatView";
 import siteConfig from "../config/siteConfig";
+import { safeGetItem, safeSetItem } from "../utils/safeLocalStorage";
 
 // Frontmatter field definitions for blog posts
 const POST_FIELDS = [
@@ -198,12 +199,12 @@ export default function Write() {
 
   // Load from localStorage on mount
   useEffect(() => {
-    const savedContent = localStorage.getItem(STORAGE_KEY_CONTENT);
-    const savedType = localStorage.getItem(STORAGE_KEY_TYPE) as
+    const savedContent = safeGetItem(STORAGE_KEY_CONTENT);
+    const savedType = safeGetItem(STORAGE_KEY_TYPE) as
       | "post"
       | "page"
       | null;
-    const savedFont = localStorage.getItem(STORAGE_KEY_FONT) as
+    const savedFont = safeGetItem(STORAGE_KEY_FONT) as
       | "serif"
       | "sans"
       | "monospace"
@@ -242,17 +243,17 @@ export default function Write() {
 
   // Save to localStorage on content change
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY_CONTENT, content);
+    safeSetItem(STORAGE_KEY_CONTENT, content);
   }, [content]);
 
   // Save type to localStorage
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY_TYPE, contentType);
+    safeSetItem(STORAGE_KEY_TYPE, contentType);
   }, [contentType]);
 
   // Save font preference to localStorage
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY_FONT, font);
+    safeSetItem(STORAGE_KEY_FONT, font);
   }, [font]);
 
   // Prevent scroll when switching to AI chat mode

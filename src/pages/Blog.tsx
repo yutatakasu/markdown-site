@@ -9,6 +9,7 @@ import SocialFooter from "../components/SocialFooter";
 import NewsletterSignup from "../components/NewsletterSignup";
 import siteConfig from "../config/siteConfig";
 import { ArrowLeft } from "lucide-react";
+import { safeGetItem, safeSetItem } from "../utils/safeLocalStorage";
 
 // Local storage key for blog view mode preference
 const BLOG_VIEW_MODE_KEY = "blog-view-mode";
@@ -35,7 +36,7 @@ export default function Blog() {
 
   // Load saved view mode preference from localStorage
   useEffect(() => {
-    const saved = localStorage.getItem(BLOG_VIEW_MODE_KEY);
+    const saved = safeGetItem(BLOG_VIEW_MODE_KEY);
     if (saved === "list" || saved === "cards") {
       setViewMode(saved);
     }
@@ -45,7 +46,7 @@ export default function Blog() {
   const toggleViewMode = () => {
     const newMode = viewMode === "list" ? "cards" : "list";
     setViewMode(newMode);
-    localStorage.setItem(BLOG_VIEW_MODE_KEY, newMode);
+    safeSetItem(BLOG_VIEW_MODE_KEY, newMode);
   };
 
   // Check if posts should be shown on blog page

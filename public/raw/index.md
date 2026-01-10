@@ -2,8 +2,10 @@
 
 This is the homepage index of all published content.
 
-## Blog Posts (4)
+## Blog Posts (5)
 
+- **[コンシューマーAIのホワイトスペースはどこにあるか？](/raw/consumer-ai-2026.md)**
+  - Date: 2026-01-10 | Reading time: 1 min read
 - **[Write It Yourself](/raw/write-it-yourself.md)** - Creating a culture of documentation in a Japanese AI startup
   - Date: 2025-12-25 | Reading time: 6 min read
 - **[Introducing Eka](/raw/introducing-eka.md)** - A publishing tool where your ideas find their shape.
@@ -15,6 +17,6 @@ This is the homepage index of all published content.
 
 ---
 
-**Total Content:** 4 posts, 0 pages
+**Total Content:** 5 posts, 0 pages
 
 All content is available as raw markdown files at `/raw/{slug}.md`

@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { Heading } from "../utils/extractHeadings";
 import { ChevronRight } from "lucide-react";
+import { safeGetItem, safeSetItem } from "../utils/safeLocalStorage";
 
 interface PageSidebarProps {
   headings: Heading[];
@@ -40,7 +41,7 @@ function buildHeadingTree(headings: Heading[]): HeadingNode[] {
 
 // Load expanded state from localStorage
 function loadExpandedState(headings: Heading[]): Set<string> {
-  const stored = localStorage.getItem("page-sidebar-expanded-state");
+  const stored = safeGetItem("page-sidebar-expanded-state");
   if (stored) {
     try {
       const storedIds = new Set(JSON.parse(stored));
@@ -58,7 +59,7 @@ function loadExpandedState(headings: Heading[]): Set<string> {
 
 // Save expanded state to localStorage
 function saveExpandedState(expanded: Set<string>): void {
-  localStorage.setItem(
+  safeSetItem(
     "page-sidebar-expanded-state",
     JSON.stringify(Array.from(expanded)),
   );

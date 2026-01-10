@@ -10,6 +10,7 @@ import Footer from "../components/Footer";
 import SocialFooter from "../components/SocialFooter";
 import NewsletterSignup from "../components/NewsletterSignup";
 import siteConfig from "../config/siteConfig";
+import { safeGetItem, safeSetItem } from "../utils/safeLocalStorage";
 
 // Local storage keys for preferences
 const VIEW_MODE_KEY = "featured-view-mode";
@@ -45,11 +46,11 @@ export default function Home() {
 
   // Load saved preferences from localStorage
   useEffect(() => {
-    const savedViewMode = localStorage.getItem(VIEW_MODE_KEY);
+    const savedViewMode = safeGetItem(VIEW_MODE_KEY);
     if (savedViewMode === "list" || savedViewMode === "cards") {
       setViewMode(savedViewMode);
     }
-    const savedLanguage = localStorage.getItem(LANGUAGE_KEY);
+    const savedLanguage = safeGetItem(LANGUAGE_KEY);
     if (savedLanguage === "all" || savedLanguage === "en" || savedLanguage === "ja") {
       setLanguageFilter(savedLanguage);
     }
@@ -59,7 +60,7 @@ export default function Home() {
   const handleLanguageChange = (lang: LanguageFilter) => {
     setLanguageFilter(lang);
     setCurrentPage(1);
-    localStorage.setItem(LANGUAGE_KEY, lang);
+    safeSetItem(LANGUAGE_KEY, lang);
   };
 
   // Filter posts by language property
@@ -78,7 +79,7 @@ export default function Home() {
   const toggleViewMode = () => {
     const newMode = viewMode === "list" ? "cards" : "list";
     setViewMode(newMode);
-    localStorage.setItem(VIEW_MODE_KEY, newMode);
+    safeSetItem(VIEW_MODE_KEY, newMode);
   };
 
   // Render logo gallery based on position config

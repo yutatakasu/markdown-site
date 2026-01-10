@@ -2,6 +2,7 @@ import { useEffect, useRef, useCallback } from "react";
 import { useMutation } from "convex/react";
 import { useLocation } from "react-router-dom";
 import { api } from "../../convex/_generated/api";
+import { safeGetItem, safeSetItem } from "../utils/safeLocalStorage";
 
 // Heartbeat interval: 30 seconds (with jitter added to prevent synchronized calls)
 const HEARTBEAT_INTERVAL_MS = 30 * 1000;
@@ -42,10 +43,10 @@ function getSessionId(): string {
     return generateSessionId();
   }
 
-  let sessionId = localStorage.getItem(SESSION_ID_KEY);
+  let sessionId = safeGetItem(SESSION_ID_KEY);
   if (!sessionId) {
     sessionId = generateSessionId();
-    localStorage.setItem(SESSION_ID_KEY, sessionId);
+    safeSetItem(SESSION_ID_KEY, sessionId);
   }
   return sessionId;
 }

@@ -133,13 +133,15 @@ function calculateReadTime(content: string): string {
   return `${minutes} min read`;
 }
 
-// Helper to convert date to string format (YYYY-MM-DD)
-function formatDateToString(date: string | Date): string {
-  if (date instanceof Date) {
-    return date.toISOString().split("T")[0];
-  }
-  // If it's already a string, ensure it's in the correct format
-  return String(date).split("T")[0];
+// Helper to convert date to string format (YYYY-MM-DD) with validation
+function formatDateToString(date: string | Date): string | null {
+  const dateString =
+    date instanceof Date ? date.toISOString().split("T")[0] : String(date).split("T")[0];
+  const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+  if (!isoDatePattern.test(dateString)) return null;
+  const parsed = new Date(dateString);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return dateString;
 }
 
 // Helper to remove undefined values from an object
@@ -167,13 +169,21 @@ function parseMarkdownFile(filePath: string): ParsedPost | null {
       return null;
     }
 
+    const formattedDate = formatDateToString(frontmatter.date);
+    if (!formattedDate) {
+      console.warn(
+        `Skipping ${filePath}: invalid date "${frontmatter.date}" (expected YYYY-MM-DD)`,
+      );
+      return null;
+    }
+
     // Build the post object with only defined values
     const post: ParsedPost = {
       slug: frontmatter.slug,
       title: frontmatter.title,
       description: frontmatter.description || "",
       content: content.trim(),
-      date: formatDateToString(frontmatter.date),
+      date: formattedDate,
       published: frontmatter.published ?? true,
       tags: frontmatter.tags || [],
       readTime: frontmatter.readTime || calculateReadTime(content),

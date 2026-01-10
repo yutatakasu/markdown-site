@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { safeGetItem, safeSetItem } from "../utils/safeLocalStorage";
 
 // Available theme options
 type Theme = "dark" | "light" | "tan" | "cloud";
@@ -21,13 +22,9 @@ interface ThemeProviderProps {
 
 // Get initial theme from localStorage or use default
 const getInitialTheme = (defaultTheme: Theme): Theme => {
-  try {
-    const saved = localStorage.getItem("blog-theme") as Theme;
-    if (saved && ["dark", "light", "tan", "cloud"].includes(saved)) {
-      return saved;
-    }
-  } catch {
-    // localStorage not available
+  const saved = safeGetItem("blog-theme") as Theme | null;
+  if (saved && ["dark", "light", "tan", "cloud"].includes(saved)) {
+    return saved;
   }
   return defaultTheme;
 };
@@ -54,7 +51,7 @@ export function ThemeProvider({ children, defaultTheme = DEFAULT_THEME }: ThemeP
   // Apply theme to DOM and persist to localStorage
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("blog-theme", theme);
+    safeSetItem("blog-theme", theme);
     updateMetaThemeColor(theme);
   }, [theme]);
 
