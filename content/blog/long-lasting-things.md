@@ -5,7 +5,7 @@ date: "2026-01-13"
 slug: things-that-are-long-lasting
 published: true
 language: jp
-image: /images/consumer-ai-2026/longlasting.png
+image: /images/longlasting.png
 showImageAtTop: true
 ---
 
