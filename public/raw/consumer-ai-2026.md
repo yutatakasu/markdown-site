@@ -127,7 +127,8 @@ AI時代のコンシューマープロダクトに求められるUI・UXを実�
 
 私自身、プロダクトを作る身として、精進していきたいと考えています。
 
-（Written with https://www.eka.is/）
+
+Written with https://www.eka.is/
 
 参考文献：
 [Consumer is Back – And Why It’s Been So Hard Since 2014 (NFX)](https://www.nfx.com/post/consumer-is-back#It%E2%80%99s-a-New-Consumer-Software-Age)
