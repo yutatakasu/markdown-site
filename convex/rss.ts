@@ -2,10 +2,9 @@ import { httpAction } from "./_generated/server";
 import { api } from "./_generated/api";
 
 // Site configuration for RSS feed
-const SITE_URL = process.env.SITE_URL || "https://www.markdown.fast";
-const SITE_TITLE = "markdown sync framework";
-const SITE_DESCRIPTION =
-  "An open-source publishing framework built for AI agents and developers to ship websites, docs, or blogs.. Write markdown, sync from the terminal. Your content is instantly available to browsers, LLMs, and AI agents. Built on Convex and Netlify.";
+const SITE_URL = process.env.SITE_URL || "https://yutamc.com";
+const SITE_TITLE = "Yuta's Blog";
+const SITE_DESCRIPTION = "Articles from Yuta Takasu";
 
 // Escape XML special characters
 function escapeXml(text: string): string {

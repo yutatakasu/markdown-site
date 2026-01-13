@@ -17,9 +17,9 @@ import { useState, useEffect } from "react";
 import siteConfig from "../config/siteConfig";
 
 // Site configuration
-const SITE_URL = "https://markdown.fast";
-const SITE_NAME = "markdown sync framework";
-const DEFAULT_OG_IMAGE = "/images/og-default.svg";
+const SITE_URL = "https://yutamc.com";
+const SITE_NAME = "Yuta's Blog";
+const DEFAULT_OG_IMAGE = "/images/og-default.jpg";
 
 interface PostProps {
   slug?: string; // Optional slug prop when used as homepage

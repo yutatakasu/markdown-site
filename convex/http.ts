@@ -6,8 +6,8 @@ import { rssFeed, rssFullFeed } from "./rss";
 const http = httpRouter();
 
 // Site configuration
-const SITE_URL = process.env.SITE_URL || "https://www.markdown.fast";
-const SITE_NAME = "markdown sync framework";
+const SITE_URL = process.env.SITE_URL || "https://yutamc.com";
+const SITE_NAME = "Yuta's Blog";
 
 // RSS feed endpoint (descriptions only)
 http.route({
@@ -250,9 +250,9 @@ function generateMetaHtml(content: {
   image?: string;
   type?: "post" | "page";
 }): string {
-  const siteUrl = process.env.SITE_URL || "https://markdown.fast";
-  const siteName = "markdown sync framework";
-  const defaultImage = `${siteUrl}/images/og-default.svg`;
+  const siteUrl = process.env.SITE_URL || "https://yutamc.com";
+  const siteName = "Yuta's Blog";
+  const defaultImage = `${siteUrl}/images/og-default.jpg`;
   const canonicalUrl = `${siteUrl}/${content.slug}`;
 
   // Resolve image URL: use post image if available, otherwise default

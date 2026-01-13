@@ -53,10 +53,10 @@ export default function TagPage() {
   // Update page title
   useEffect(() => {
     if (decodedTag) {
-      document.title = `Posts tagged "${decodedTag}" | markdown sync framework`;
+      document.title = `Posts tagged "${decodedTag}" | Yuta's Blog`;
     }
     return () => {
-      document.title = "markdown sync framework";
+      document.title = "Yuta's Blog";
     };
   }, [decodedTag]);
 
